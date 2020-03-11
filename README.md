@@ -24,8 +24,8 @@ Być może można wspomóc się bibliotekami jak np. Dalex.
 
 ## Done
 
-Czyszczenie danych - bj. Poprawiłem dane na kilka sposobów. Głównie przekształciłem dane do postaci niekategorycznej gdzie się dało, co znacząco poprawiło jakosć predykcji dla random forest (z ok. 70 do 92).
+Czyszczenie danych - bj. Poprawiłem dane na kilka sposobów. Głównie przekształciłem dane do postaci niekategorycznej gdzie się dało, co znacząco poprawiło jakosć predykcji dla random forest (z ok. 70 do 92). UPDATE teraz wyniki się trochę zmieniły.
 
 Dopasowany został model:
-  - Random Forest - acc 0.920
-  - lm            - acc 0.7545126
+  - Random Forest - acc 0.920 old
+  - lm            - acc 0.7545126 old
