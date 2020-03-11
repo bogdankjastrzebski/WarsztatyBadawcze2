@@ -11,11 +11,11 @@ Zadanie polega na przewidzeniu wystąpienia raka piersi.
 ## TODO
 
 Przetestować:
-- svm z jądrem gausowskim
+- svm z jądrem gausowskim - bj
 - gbm
 - bart
 
-Porównać z modelem drzewiastym.
+Porównać z modelem drzewiastym. -bj
 
 Porównać z modelem trenowanym metodą boxa-coxa.
 
