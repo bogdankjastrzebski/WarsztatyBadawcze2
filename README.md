@@ -11,7 +11,6 @@ Zadanie polega na przewidzeniu wystąpienia raka piersi.
 ## TODO
 
 Przetestować:
-- svm z jądrem gausowskim - bj
 - gbm
 - bart
 
@@ -29,3 +28,4 @@ Czyszczenie danych - bj. Poprawiłem dane na kilka sposobów. Głównie przekszt
 Dopasowany został model:
   - Random Forest - acc 0.920 old
   - lm            - acc 0.7545126 old
+  - svm z jądrem gausowskim - bj
