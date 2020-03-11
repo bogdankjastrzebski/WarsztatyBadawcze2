@@ -2,10 +2,30 @@
 
 To jest oficjalne repo dla przedmiotu "Warsztaty Badawcze 2".
 
+# Nota na temat datasetu i zadania
+
+Nasz dataset to breast cancer. Zawiera szereg zmiennych dyskretnych, głównie kategorycznych.
+
+Zadanie polega na przewidzeniu wystąpienia raka piersi.
+
 ## TODO
 
-Czyszczenie danych - bj
+Przetestować:
+- svm z jądrem gausowskim
+- gbm
+- bart
+
+Porównać z modelem drzewiastym.
+
+Porównać z modelem trenowanym metodą boxa-coxa.
+
+Zwizualizować dane i spróbować dodać nowe zmienne tj. zbudować parametryczny model predykcyjny (uogólniony liniowy). 
+Być może można wspomóc się bibliotekami jak np. Dalex. 
 
 ## Done
 
-None
+Czyszczenie danych - bj. Poprawiłem dane na kilka sposobów. Głównie przekształciłem dane do postaci niekategorycznej gdzie się dało, co znacząco poprawiło jakosć predykcji dla random forest (z ok. 70 do 92).
+
+Dopasowany został model:
+  - Random Forest - acc 0.920
+  - lm            - acc 0.7545126
