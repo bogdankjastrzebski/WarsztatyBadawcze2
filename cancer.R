@@ -104,6 +104,15 @@ prediction <- predict(model, task_random)
 response<-prediction$data$response
 
 random$Class<-response
+#random<-rbind(random,df8)
+
+#pewnosc klasy
+#certainty<-((prediction$data$prob.0-0.5)^2)*4
+certainty<-abs(prediction$data$prob.0-0.5)*2
+
+#certainty<-c(certainty,rep(1,277))
+
+task_random<-makeClassifTask(data = random, target = "Class",weights = certainty)
 
 #permutacje
 task_all<-makeClassifTask(data = temp, target = "Class")
@@ -126,10 +135,7 @@ sure<-certainty>0.3
 
 task_sure<-makeClassifTask(data = temp[sure,], target = "Class",weights = certainty[sure])
 
-random<-rbind(random,df8)
-certainty<-c(certainty,rep(1,277))
-task_random<-makeClassifTask(data = random, target = "Class",weights = certainty)
-
+#
 learner<-makeLearner("classif.rpart", predict.type = "prob")
 
 #0.7942238
@@ -151,8 +157,6 @@ acc_rpart_sure <-1-mean(abs(as.numeric(prediction$data$response) - as.numeric(pr
 model_rpart <- train(learner, task)
 prediction <- predict(model_rpart, task)
 acc_rpart <-1-mean(abs(as.numeric(prediction$data$response) - as.numeric(prediction$data$truth)))
-
-min(abs(prediction$data$prob.0-0.5)*2)
 
 #rpart_random nie działa lepiej niz rpart
 
