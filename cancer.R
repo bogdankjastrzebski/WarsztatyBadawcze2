@@ -79,8 +79,45 @@ learner<-makeLearner("classif.randomForest", predict.type = "prob")
 model <- train(learner, task)
 prediction <- predict(model, task)
 
-acc_rf <- mean(abs(as.numeric(prediction$data$response) - as.numeric(prediction$data$truth)))
+acc_rf <-1-mean(abs(as.numeric(prediction$data$response) - as.numeric(prediction$data$truth)))
 
+#losowe dane stworzone na podstawie datasetu i predykcji lasu losowego
+random<-sapply(1:12,FUN = function(x){df8[sample(1:277,10000,replace = TRUE),x]})
+
+random<-data.frame(random)
+
+task_random<-makeClassifTask(data = random, target = "Class")
+
+prediction <- predict(model, task_random)
+
+response<-prediction$data$response
+
+random$Class<-response
+
+#pewnosc klasy
+certainty<-((prediction$data$prob.0-0.5)^2)*4
+
+random<-rbind(random,df8)
+
+certainty<-c(certainty,rep(1,277))
+
+hist(certainty)
+
+task_random<-makeClassifTask(data = random, target = "Class",weights = certainty)
+
+learner<-makeLearner("classif.rpart", predict.type = "prob")
+
+#79.4
+model_rpart_random <- train(learner, task_random)
+prediction <- predict(model_rpart_random, task)
+acc_rpart_random <-1-mean(abs(as.numeric(prediction$data$response) - as.numeric(prediction$data$truth)))
+
+#80.5
+model_rpart <- train(learner, task)
+prediction <- predict(model_rpart, task)
+acc_rpart <-1-mean(abs(as.numeric(prediction$data$response) - as.numeric(prediction$data$truth)))
+
+#rpart_random nie działa lepiej niz rpart
 
 # Olafa
 
@@ -96,4 +133,8 @@ measures<-intersect(listMeasures(task),c("f1", "acc", "auc", "tnr", "tpr" ,"ppv"
 
 cv <- makeResampleDesc("CV", iters = 5)
 r <- resample(learner, task, cv, measures = Rcuda[measures])
+
+
+
+
 
