@@ -2,6 +2,7 @@ library(mlr)
 #https://www.openml.org/d/13
 library(readr)
 library(dplyr)
+library(rpart.plot)
 
 df <- read_csv("dataset_13_breast-cancer.csv")
 
@@ -153,10 +154,34 @@ model_rpart_sure <- train(learner, task_sure)
 prediction <- predict(model_rpart_sure, task)
 acc_rpart_sure <-1-mean(abs(as.numeric(prediction$data$response) - as.numeric(prediction$data$truth)))
 
+dt_param <- makeParamSet( 
+  makeDiscreteParam("minsplit", values=seq(5,10,1)), makeDiscreteParam("minbucket", values=seq(round(5/3,0), round(10/3,0), 1)), 
+  makeNumericParam("cp", lower = 0.01, upper = 0.05), makeDiscreteParam("maxcompete", values=6), makeDiscreteParam("usesurrogate", values=0),
+  makeDiscreteParam("maxdepth", values=10) )
+
+#nie ma roznicy
+ctrl = makeTuneControlGrid()
+rdesc = makeResampleDesc("CV", iters = 3L, stratify=TRUE)
+(dt_tuneparam <- tuneParams(learner=learner, 
+                            resampling=rdesc, 
+                            measures=list(mlr::acc, setAggregation(tpr, test.sd)), 
+                            par.set=dt_param, 
+                            control=ctrl, 
+                            task=task_sure, 
+                            show.info = TRUE) )
+
+dtree <- setHyperPars(learner, par.vals = dt_tuneparam$x)
+dtree_train <- train(learner=dtree, task=task_sure) 
+prediction <- predict(dtree_train, task)
+
+acc_rpart_sure_tune <-1-mean(abs(as.numeric(prediction$data$response) - as.numeric(prediction$data$truth)))
+
 #0.805
 model_rpart <- train(learner, task)
 prediction <- predict(model_rpart, task)
 acc_rpart <-1-mean(abs(as.numeric(prediction$data$response) - as.numeric(prediction$data$truth)))
+
+rpart.plot(model_rpart$learner.model)
 
 #rpart_random nie działa lepiej niz rpart
 
