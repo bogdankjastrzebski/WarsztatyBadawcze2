@@ -82,7 +82,18 @@ prediction <- predict(model, task)
 acc_rf <-1-mean(abs(as.numeric(prediction$data$response) - as.numeric(prediction$data$truth)))
 
 #losowe dane stworzone na podstawie datasetu i predykcji lasu losowego
-random<-sapply(1:12,FUN = function(x){df8[sample(1:277,10000,replace = TRUE),x]})
+
+#wszystkie permutacje
+temp<-sapply(1:12, function(x){length(unique(df8[[x]]))})
+
+temp<-sapply(1:12, function(x){unique(df8[[x]])})
+
+temp<-expand.grid(temp)
+
+names(temp)<-names(df8)
+
+#losowe
+random<-sapply(1:12,FUN = function(x){df8[sample(1:277,100000,replace = TRUE),x]})
 
 random<-data.frame(random)
 
@@ -94,28 +105,54 @@ response<-prediction$data$response
 
 random$Class<-response
 
+#permutacje
+task_all<-makeClassifTask(data = temp, target = "Class")
+
+prediction <- predict(model, task_all)
+
+response<-prediction$data$response
+
+temp$Class<-response
+
 #pewnosc klasy
-certainty<-((prediction$data$prob.0-0.5)^2)*4
-
-random<-rbind(random,df8)
-
-certainty<-c(certainty,rep(1,277))
+#certainty<-((prediction$data$prob.0-0.5)^2)*4
+certainty<-abs(prediction$data$prob.0-0.5)*2
 
 hist(certainty)
 
+task_all<-makeClassifTask(data = temp, target = "Class",weights = certainty)
+
+sure<-certainty>0.3
+
+task_sure<-makeClassifTask(data = temp[sure,], target = "Class",weights = certainty[sure])
+
+random<-rbind(random,df8)
+certainty<-c(certainty,rep(1,277))
 task_random<-makeClassifTask(data = random, target = "Class",weights = certainty)
 
 learner<-makeLearner("classif.rpart", predict.type = "prob")
 
-#79.4
+#0.7942238
 model_rpart_random <- train(learner, task_random)
 prediction <- predict(model_rpart_random, task)
 acc_rpart_random <-1-mean(abs(as.numeric(prediction$data$response) - as.numeric(prediction$data$truth)))
 
-#80.5
+#0.7870036
+model_rpart_all <- train(learner, task_all)
+prediction <- predict(model_rpart_all, task)
+acc_rpart_all <-1-mean(abs(as.numeric(prediction$data$response) - as.numeric(prediction$data$truth)))
+
+#0.7870036
+model_rpart_sure <- train(learner, task_sure)
+prediction <- predict(model_rpart_sure, task)
+acc_rpart_sure <-1-mean(abs(as.numeric(prediction$data$response) - as.numeric(prediction$data$truth)))
+
+#0.805
 model_rpart <- train(learner, task)
 prediction <- predict(model_rpart, task)
 acc_rpart <-1-mean(abs(as.numeric(prediction$data$response) - as.numeric(prediction$data$truth)))
+
+min(abs(prediction$data$prob.0-0.5)*2)
 
 #rpart_random nie działa lepiej niz rpart
 
