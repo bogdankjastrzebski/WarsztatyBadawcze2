@@ -36,7 +36,9 @@ data %>% ncol
 
 data
 
-# 
+# SVM
+
+svm_model <- svm()
 
 
 # Model
