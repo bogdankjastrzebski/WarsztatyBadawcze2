@@ -2,6 +2,7 @@ library(mlr)
 #https://www.openml.org/d/13
 library(readr)
 library(dplyr)
+library(e1071)
 
 df <- read_csv("dataset_13_breast-cancer.csv")
 
@@ -58,28 +59,39 @@ df7 <- df6 %>% mutate(node_caps = as.numeric(node_caps == "'yes'"),
                irradiat = as.numeric(irradiat == "'yes'"),
                Class = as.numeric(Class == "'recurrence-events'"))
 
+###################################################
+
+i <- sample(1:nrow(df7), 30)
+
+train <- df7[-i,]
+valid <- df7[i,]
+
 # Prosta regresja liniowa
 
-basic_linear <- glm(Class ~ ., data=df7, family = "binomial")
-summary(basic_linear)
+basic_linear <- glm(Class ~ ., data=train, family = "binomial")
+predict(basic_linear, type="response")
 
-abs(round(basic_linear$fitted.values) - df7$Class) %>% sort %>% plot
-
-acc <- 1-mean(abs(round(basic_linear$fitted.values) - df7$Class))
-
+acc_lm <- 1-mean(abs(round(predict(basic_linear, valid, type="response")) - valid$Class))
 
 # Random Forest
-df8 <- df7
-df8$Class <- as.factor(df8$Class) 
+train$Class <- as.factor(train$Class) 
+valid$Class <- as.factor(valid$Class)
 
+task<-makeClassifTask(data = train, target = "Class")
+rf_learner<-makeLearner("classif.randomForest", predict.type = "prob")
 
-task<-makeClassifTask(data = df8, target = "Class")
-learner<-makeLearner("classif.randomForest", predict.type = "prob")
+rf_model <- train(rf_learner, task)
+prediction <- predict(fr_model, newdata = valid)
 
-model <- train(learner, task)
-prediction <- predict(model, task)
+acc_rf <- 1 - mean(abs(as.numeric(prediction$data$response) - as.numeric(prediction$data$truth)))
 
-acc_rf <- mean(abs(as.numeric(prediction$data$response) - as.numeric(prediction$data$truth)))
+# svm
+s <- svm(x = train %>% select(-Class),
+         y = train$Class,
+         cost=1)
+
+acc_svm <- 1 - mean(abs(as.numeric(as.character(predict(s, valid %>% select(-Class)))) - as.numeric(as.character(valid$Class))))
+
 
 
 # Olafa
