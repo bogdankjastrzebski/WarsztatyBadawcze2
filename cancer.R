@@ -76,12 +76,12 @@ acc_lm <- 1-mean(abs(round(predict(basic_linear, valid, type="response")) - vali
 # Random Forest
 train$Class <- as.factor(train$Class)
 valid$Class <- as.factor(valid$Class)
-
+  
 task<-makeClassifTask(data = train, target = "Class")
 rf_learner<-makeLearner("classif.randomForest", predict.type = "prob")
 
 rf_model <- train(rf_learner, task)
-prediction <- predict(fr_model, newdata = valid)
+prediction <- predict(rf_model, newdata = valid)
 
 acc_rf <- 1 - mean(abs(as.numeric(prediction$data$response) - as.numeric(prediction$data$truth)))
 
@@ -95,6 +95,10 @@ acc_svm <- 1 - mean(abs(as.numeric(as.character(predict(s, valid %>% select(-Cla
 acc_rf <-1-mean(abs(as.numeric(prediction$data$response) - as.numeric(prediction$data$truth)))
 
 #losowe dane stworzone na podstawie datasetu i predykcji lasu losowego
+
+df8<-df7
+
+df8$Class<-as.factor(df7$Class)
 
 #wszystkie permutacje
 temp<-sapply(1:12, function(x){length(unique(df8[[x]]))})
@@ -112,7 +116,7 @@ random<-data.frame(random)
 
 task_random<-makeClassifTask(data = random, target = "Class")
 
-prediction <- predict(model, task_random)
+prediction <- predict(rf_model, task_random)
 
 response<-prediction$data$response
 
@@ -125,12 +129,13 @@ certainty<-abs(prediction$data$prob.0-0.5)*2
 
 #certainty<-c(certainty,rep(1,277))
 
-task_random<-makeClassifTask(data = random, target = "Class",weights = certainty)
+#task_random<-makeClassifTask(data = random, target = "Class",weights = certainty)
+task_random<-makeClassifTask(data = random, target = "Class")
 
 #permutacje
 task_all<-makeClassifTask(data = temp, target = "Class")
 
-prediction <- predict(model, task_all)
+prediction <- predict(rf_model, task_all)
 
 response<-prediction$data$response
 
@@ -142,11 +147,13 @@ certainty<-abs(prediction$data$prob.0-0.5)*2
 
 hist(certainty)
 
-task_all<-makeClassifTask(data = temp, target = "Class",weights = certainty)
+#task_all<-makeClassifTask(data = temp, target = "Class",weights = certainty)
+task_all<-makeClassifTask(data = temp, target = "Class")
 
 sure<-certainty>0.3
 
-task_sure<-makeClassifTask(data = temp[sure,], target = "Class",weights = certainty[sure])
+#task_sure<-makeClassifTask(data = temp[sure,], target = "Class",weights = certainty[sure])
+task_sure<-makeClassifTask(data = temp[sure,], target = "Class")
 
 #
 learner<-makeLearner("classif.rpart", predict.type = "prob")
