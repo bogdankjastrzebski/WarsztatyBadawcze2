@@ -176,11 +176,11 @@ acc_rpart_sure <-1-mean(abs(as.numeric(prediction$data$response) - as.numeric(pr
 dt_param <- makeParamSet(
   makeDiscreteParam("minsplit", values=seq(5,10,1)), makeDiscreteParam("minbucket", values=seq(round(5/3,0), round(10/3,0), 1)),
   makeNumericParam("cp", lower = 0.01, upper = 0.05), makeDiscreteParam("maxcompete", values=6), makeDiscreteParam("usesurrogate", values=0),
-  makeDiscreteParam("maxdepth", values=10) )
+  makeDiscreteParam("maxdepth", values=5) )
 
 #nie ma roznicy
 ctrl = makeTuneControlGrid()
-rdesc = makeResampleDesc("CV", iters = 3L, stratify=TRUE)
+rdesc = makeResampleDesc("CV", iters = 5L, stratify=TRUE)
 (dt_tuneparam <- tuneParams(learner=learner,
                             resampling=rdesc,
                             measures=list(mlr::acc, setAggregation(tpr, test.sd)),
