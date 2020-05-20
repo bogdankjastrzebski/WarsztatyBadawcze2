@@ -31,6 +31,25 @@ An embedding can be done made in various ways. In this article we will explore d
 
 * Convolutional Autoencoder
 
+### Black-Box Convolutional Neural Networks
+
+Classical approach in computer vision is to use convolutional neural networks. A standard artificial neural network sees all variables as being independent from each other. It doesn't capture the same patterns across image space, nor it recognises, that two pixels next to each other are somehow related. Shifted image is something completly different to a standard neural network from it's original. Therefore, training a standard neural network is tricky, it requires very big dataset and takes a lot of time. There is, however, a smarter approach that has a capacity to cope with those problems. Namely, convolutional neural networks. 
+
+A convolutional neural network is an artificial neural network, that tries to capture spacial dependencies between variables, for instance dimensions of pixels that are close to each other.
+It does that via introducing convolution. The easiest interpretation of convolutional neural network is that instead of training training big network that uses all variables (in our case all pixels), we train smaller transformation with smaller number of variables (smaller subset of pixels close to each other), that we use in many different places on the image. In some sense we train filters. Every filter produces a corresponding so called "channel". After first layer we can continue filtering channels using convolutional layers. We place a danse layer (or a number of them) at the end and it's result is our prediction. For further reading, please see ... .
+
+Having a very good performance, they are impossible to explain. There are some techniques of visualising filters, however more complex networks are generally uninterpretable. Along with standard artificial neural network, we will use it as an instance of robust classifier for comparing results. 
+
+#### Architecure and Implementation
+
+Our implementation of convolutional neural networks consist of the following layers:
+
+- Conv2d(1, a, 5)
+- Conv2d(a, a, 5)
+- Conv2d(a, b, 5)
+- Linear(500, 200)
+- Linear(200, 10)
+
 
 
 ### Results
