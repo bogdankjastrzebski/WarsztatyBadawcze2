@@ -40,15 +40,22 @@ It does that via introducing convolution. The easiest interpretation of convolut
 
 Having a very good performance, they are impossible to explain. There are some techniques of visualising filters, however more complex networks are generally uninterpretable. Along with standard artificial neural network, we will use it as an instance of robust classifier for comparing results. 
 
-#### Architecure and Implementation
+#### Architecture and Implementation
 
 Our implementation of convolutional neural networks consist of the following layers:
 
-- Conv2d(1, a, 5)
-- Conv2d(a, a, 5)
-- Conv2d(a, b, 5)
-- Linear(500, 200)
-- Linear(200, 10)
+- Conv 2d: Input Channels: 1, Output Channels: 50, filter size: 5
+- Max Pool: Size: 2
+- Conv 2d: Input Channels: 50, Output Channels: 70, filter size: 5
+- Max Pool: Size: 2
+- Conv 2d: Input Channels: 70, Output Channels: 100, filter size: 5
+- Max Pool: Size: 2
+- Conv 2d: Input Channels: 100, Output Channels: 150, filter size: 5
+- Linear: Input_size: 1350, Output_size: 500
+- Linear: Input_size: 200, Output_size: 10
+
+Here's architecture's visualization:
+
 
 
 
