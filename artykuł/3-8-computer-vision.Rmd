@@ -31,7 +31,34 @@ An embedding can be done made in various ways. In this article we will explore d
 
 * Convolutional Autoencoder
 
+### Logistic Regression
+Logistic regression is basic classification model. We assume
 
+
+### K-means
+Our problem is supervised one, but we can still use unsupervised aproach to get better results. We use K-means algorithm (also known as Lloyd's algorithm) to find subclasses in every class. 
+
+#### Algorithm 
+1. Initiate number of random centroids
+
+2. For every observation find nearest centroid
+
+3. Calculate average of observations in every group found in point 2
+
+4. This averages becomes new centroids
+
+5. Repeat points 2 to 4 until all new centroids are at the distance less then $\epsilon$ from old centroids
+
+We use euclidean distance.
+
+Prediction for every new observation is simply class of nearest centroid. Algorithm is interpretable, because we can visualise centroids as images. Thanks to using K-means to find subclasses our images are not blurry.
+Also because number of all subclasses is much lower than number of records in data set using KNN only on centroids is much faster.
+
+
+### SVD
+SVD is standard method of method of dimensionality reduction. It is rewriting $m\times n$ matrix $M$ as $U\Sigma V^T$ where $U$ is $m\times m$ orthonormal matrix, $V^T$ is $n\times n$ orthonormal matrix and $\Sigma$ is $m\times n$ rectangular diagonal matrix with non-negative real numbers on the diagonal. We assume that singular values of $\Sigma$ are in descending order. Now by taking first columns of $V^T$ we get vectors which are the most relevent.
+
+We can then visualise this vectors and see which parts of the picture are the most importent. Also we can reduce number of dimensions for KNN.
 
 ### Results
 
