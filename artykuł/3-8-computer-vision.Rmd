@@ -38,9 +38,9 @@ Classical approach in computer vision is to use convolutional neural networks. A
 A convolutional neural network is an artificial neural network, that tries to capture spacial dependencies between variables, for instance dimensions of pixels that are close to each other.
 It does that via introducing convolution. The easiest interpretation of convolutional neural network is that instead of training training big network that uses all variables (in our case all pixels), we train smaller transformation with smaller number of variables (smaller subset of pixels close to each other), that we use in many different places on the image. In some sense we train filters. Every filter produces a corresponding so called "channel". After first layer we can continue filtering channels using convolutional layers. We place a danse layer (or a number of them) at the end and it's result is our prediction. For further reading, please see ... .
 
-Having a very good performance, they are impossible to explain. There are some techniques of visualising filters, however more complex networks are generally uninterpretable. Along with standard artificial neural network, we will use it as an instance of robust classifier for comparing results. 
+Having a very good performance, they are impossible to explain. There are some techniques of visualising filters, however more complex networks are generally uninterpretable. We will use it as an instance of a robust classifier for comparing results. 
 
-#### Architecture and Implementation
+#### Architecture
 
 Our implementation of convolutional neural networks consist of the following layers:
 
@@ -56,10 +56,83 @@ Our implementation of convolutional neural networks consist of the following lay
 
 Here's architecture's visualization:
 
+#### Implementation
 
+This is an implementation of this classifier using pytorch:
 
+```python
+class AUTOENC(nn.Module):
+    def __init__(self):
+        super(AUTOENC, self).__init__()
+        a = 50
+        b = 10
+        c = 1
+        
+        self.conv10 = nn.Conv2d(1, a, 5)
+        self.conv15 = nn.Conv2d(a, a, 5)
+        self.conv20 = nn.Conv2d(a, b, 5)
+        self.conv25 = nn.Conv2d(b, b, 5)
+        self.conv30 = nn.Conv2d(b, c, 5)
+        
+        self.conv40 = nn.Conv2d(c, b, 5)
+        self.conv45 = nn.Conv2d(b, b, 5)
+        self.conv50 = nn.Conv2d(b, a, 5)
+        self.conv55 = nn.Conv2d(a, a, 5)
+        self.conv60 = nn.Conv2d(a, 1, 5)
+        
+        self.pool = nn.MaxPool2d(2, return_indices=True)
+        self.unpool = nn.MaxUnpool2d(2)
+        
+    def forward(self, X):
+        X = torch.relu(self.conv10(F.pad(X,(2,2,2,2))))
+
+        X = torch.relu(self.conv15(F.pad(X,(2,2,2,2))))
+        X, inda = self.pool(X)
+        X = torch.relu(self.conv20(F.pad(X,(2,2,2,2))))
+        
+        X = torch.relu(self.conv25(F.pad(X,(2,2,2,2))))
+        X, indb = self.pool(X)
+        X = torch.relu(self.conv30(F.pad(X,(2,2,2,2))))
+        
+        X = torch.relu(self.conv40(F.pad(X,(2,2,2,2))))
+        X = self.unpool(X, indb)
+        X = torch.relu(self.conv45(F.pad(X,(2,2,2,2))))
+        
+        X = torch.relu(self.conv50(F.pad(X,(2,2,2,2))))
+        X = self.unpool(X, inda)
+        X = torch.relu(self.conv55(F.pad(X,(2,2,2,2))))
+        
+        X = torch.sigmoid(self.conv60(F.pad(X,(2,2,2,2))))
+        
+        return X
+```
+
+### Semi-Interpretable Models: Convolutional Autoencoder + KNN
+
+We can create semi interpretable model by training a convolutional autoencoder and then creating KNN classifier on pretrained embeddings. As mentioned previously, it has several advantages over KNN, because it uses euclidean distance in more meaningful space. Embedder is not interpretable, but our classifier can at least show us historical observations, that had an impact on prediction, which sometimes is good enough, especially when it can be easily seen why two images are similar and we only want a computer to do humans work. For instance, if we provide 5 images of coala that caused that our image of coala has been interpreted as coala, we maybe don't know, why those images are similar according to our classifier, however we can see, that they are similar, so further explanation of a model is not required. 
+
+This model, again, is not fully interpretable.
+
+#### Architecture
+
+Our implementation of convolutional autoencoder consist of the following layers:
+
+- Conv2d: Input Channels:  1, Output Channels: 50, filter size: 5
+- Conv2d: Input Channels: 50, Output Channels: 50, filter size: 5
+- Conv2d: Input Channels: 50, Output Channels: 10, filter size: 5
+- Conv2d: Input Channels: 10, Output Channels: 10, filter size: 5
+- Conv2d: Input Channels: 10, Output Channels:  1, filter size: 5
+
+- Conv2d: Input Channels:  1, Output Channels: 10, filter size: 5
+- Conv2d: Input Channels: 10, Output Channels: 10, filter size: 5
+- Conv2d: Input Channels: 10, Output Channels: 50, filter size: 5
+- Conv2d: Input Channels: 50, Output Channels: 50, filter size: 5
+- Conv2d: Input Channels: 50, Output Channels:  1, filter size: 5
+
+along with pooling and unpooling beetween.
 
 ### Results
+
 
 
 ### Conclusions
