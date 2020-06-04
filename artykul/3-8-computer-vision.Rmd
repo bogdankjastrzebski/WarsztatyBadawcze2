@@ -3,7 +3,8 @@
 *Authors: Olaf Werner, Bogdan Jastrzębski (Warsaw University of Technology)*
 
 ### Abstract
-Interpretability of machine learning models become in recent years even more important. The need for it raised a wave of criticism towards deep neural networks (DNNs), as they are not interpretable. However, DNN can give much better results than other classifiers for different tasks, e.g. image recognition, and therefore there is a trade-off between interpretability and robustness. In this work, we investigate further the idea of Deep k-Nearest Neighbors (DkNN), simplifying the previous algorithm. We present an easy augmentation technique of k-NN classifier, that can significantly boost its performance using autoencoders or other unsupervised learning algorithms. We obtain classifier that is interpretable in a sense, that we can provide explanatory training set observations and in the same time much more robust. This technique, however, as presented here, produced worse results than a convolutional neural network, and therefore there is still a room for improvement.
+
+Interpretability of machine learning models become in recent years even more important. The need for it raised a wave of criticism towards deep neural networks (DNNs), as they are not interpretable. However, DNN can give much better results than other classifiers for different tasks, e.g. image recognition, and therefore there is a trade-off between interpretability and robustness. In this work, we investigate further the idea of Deep k-Nearest Neighbors (DkNN), simplifying the previous algorithm. We present an easy augmentation technique of k-NN classifier, that can significantly boost its performance in image recognition using autoencoders or other unsupervised learning algorithms. We obtain classifier that is interpretable in a sense, that we can provide explanatory training set observations and in the same time much more robust. This technique, however, as presented here, produced worse results than a convolutional neural network, and therefore there is still a room for improvement.
 
 ---
 
@@ -50,9 +51,15 @@ We are going to use dataset [Fashion-Mnist](https://www.openml.org/d/40996). Fas
 
 ### 3.8.3 Methodology
 
-The simplest and one of the most robust classifiers is k-NN [5]. It doesn't generalize information, instead it saves training dataset and during prediction it finds the most similar historical observations and predicts label of a new observation based on their labels. However, it not only doesn't have the capacity to distinguish important features from not important ones, but also to find more complex interactions between variables. 
+The simplest and one of the most robust classifiers is KNN. It doesn't generalize information, instead, it saves training dataset and during prediction, it finds the most similar historical observations and predicts the label of a new observation based on their labels. However, it not only can't distinguish important features from not important ones but also to find more complex interactions between variables. 
 
-One way to improve k-NN's performance is to precede closest neighbor computation with transformation of the space of observations, so that the derivative variables are more meaningful. Such beneficial transformation is called embedding. It can be done in various ways. 
+One of the simplest, yet very robust classification algorithms is k-NN. It does not generalize knowledge, instead, it finds the most similar observations from the training data set to new observation and predicts its class based on theirs. However, it's not only unable to distinguish important from irrelevant features, but also find interactions between variables.
+
+A way to improve classification results with the k-NN algorithm is to determine a better measure of similarity than the p-norm. In this paper, we propose a measure of similarity of the following form:
+
+$$ dist(x,y) := | Emb(x) - Emb(y) |_p $$
+where $Emb: \mathbb{R}^n \rightarrow \mathbb{R}^m$, $\mathbb{R}^n$ is the space of observations and $\mathbb{R}^m$ is the space of embedding (n > m).
+Note, that $dist$ is not a metric.
 
 An embedding can be done made in various ways. In this article we will explore different embedding techniques, including:
 
@@ -66,15 +73,22 @@ An embedding can be done made in various ways. In this article we will explore d
 
 ### 3.8.4 Autoenconders and Embedding
 
-An autoencoder consists of two parts, the encoder and the decoder, which can be defined as functions \phi and \psi such that:
+An embedding 
+
+An autoencoder consists of two parts, the encoder and the decoder, which can be defined as functions $f:X \rightarrow Y$ and $g:Y \rightarrow X$ where $dim X>dim Y$.
+We want our autoencoder to be such that: $min |(f \circ g)(X)-X |^2$. It basically means that after using encoder and decoder our data is minimally changed.
     
 
 
 
 
-### 3.8.4 Standard Intepretable Models
+### 3.8.4 The use of standard intepretable models in computer vision
 
-In this section we will explore use of standard interpretable models and we will try to answer the question, why they are not useful when it comes to computer vision.
+We often think of logistic regression or decision tree classifier as being interpretable. Their interpretability, however, relies strongly on the interpretability of observation features.  When features are hardly interpretable, the information that a particular feature has been used is meaningless. For instance, if we know, that at some point classifier makes a choice based on the age of the patient, it is a piece of meaningful information.  On the other hand, if we know, that at some point classifier makes a choice based on one of a million pixels, this information might be meaningless to us. It gives very little explanation, why a particular pixel has been used. 
+
+Interpretability of decision tree classifier or linear regression comes directly from 
+
+In this section we will explore use of standard interpretable models and we will try to argue, that they are not useful when it comes to computer vision.
 
 ---
 
@@ -95,19 +109,25 @@ We get this because logistic regression works more like a sieve.
 ---
 
 #### 3.8.4.2 Decision Trees
-Decision trees are very useful interpretable classifiers, however they are suitable when we have very few meaningful dimensions. A tree that does splits based on particular pixels is not a good classifier and it's explanation provides little knowledge about, why those particular pixels has been chosen. That's why we will not explore the use of this class of classifiers.
+
+Decision trees are very useful classifiers that can be interpreted, however they are suitable when we have very few meaningful dimensions. The tree that at a time makes a choice based on individual pixels is not a good classifier and it's explanation provides little knowledge about, why the selected pixels has been chosen. Therefore, we will not examine the use of this class of classifiers.
 
 ---
 
 ### 3.8.5 Our Approach
+
 In this section we will show alternative to logistic regression and decision trees, that is more interpretable and in the same time has a capacity to obtain significantly better results.
 
 ---
 
 #### 3.8.5.1 The k-NN Classifier
-k-NN (k nearest neighbors) is a classifier, that doesn't generalize data. Instead, we keep the training dataset and every time we make a prediction, we calculate distance (for instance euclidean distance) between our new observation and all observations in the training dataset to find k nearest. Prediction is based on their labels. 
-k-NN is a robust classifier, that copes with highly non linear data. It's also interpretable, because we can always show k nearest neighbors, which are an explanation by themselves. It, however, is not flawless. It for instance poorly scales with the size of the training dataset, while in the same time it need, at least in some domains, very big training dataset, as it doesn't generalize any information. 
-We can significantly improve it's performance by introducing complex similarity functions. If similarity function is interpretable, we obtain highly interpretable classifier. If not, we get semi interpretable classifier, where we cannot tell, why observations are similar according to the model, however we can at least show similar training set examples, based on which prediction has been made.
+
+k-NN (k-Nearest Neighbors) is a classifier, that doesn't generalize data. Instead, we keep the training dataset and every time we make a prediction, we calculate the distance (for instance euclidean distance) between our new observation and all observations in the training dataset to find k nearest. Prediction is based on their labels. 
+
+k-NN is a robust classifier, that copes with highly non-linear data. It's also interpretable because we can always show k nearest neighbours, which are an explanation by themselves. It, however, is not flawless. It for instance poorly scales with the size of the training dataset, while in the same time it needs, at least in some domains, very big training dataset, as it doesn't generalize any information. 
+
+We can significantly improve its performance by introducing complex similarity functions. If the similarity function is interpretable, we obtain highly interpretable classifier. If not, we get semi interpretable classifier, where we cannot tell, why observations are similar according to the model, however, we can at least show similar training set examples, based on which prediction has been made.
+
 This complex distance functions can be made in many different ways. In this paper we explore functions of a form:
 $$distance(Img1, Img2) = d_e(Embedder(Img1), Embedder(Img2))$$
 where $d_e$ is euclidean distance, so we simply compute euclidean distance between embedding of images. Here's a scheme of k-NN classifier:
