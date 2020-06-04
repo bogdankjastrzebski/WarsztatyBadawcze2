@@ -91,7 +91,7 @@ $$min_\theta \frac{1}{n}\sum_{i=1}^{n}\|(Decoder_\theta \circ Encoder_\theta)(x_
 
 ### 3.8.4 The use of standard intepretable models in computer vision
 
-We often think of logistic regression or decision tree classifier as being interpretable. Their interpretability, however, relies strongly on the interpretability of observation features. When features are hardly interpretable, the information that a particular feature has been used is meaningless. For instance, if we know, that at some point classifier makes a choice based on the age of the patient, it is a piece of meaningful information.  On the other hand, if we know, that at some point classifier makes a choice based on one of a million pixels, this information might be meaningless to us. It gives very little explanation, why a particular pixel has been used. 
+We often think of logistic regression or decision tree classifier as being interpretable. Their interpretability, however, relies strongly on the interpretability of observation features. When features are hardly interpretable, the information that a particular feature has been used is meaningless. For instance, if we know, that at some point classifier makes a choice based on the age of the patient, it is a piece of meaningful information.  On the other hand, if we know, that at some point classifier makes a choice based on one of a million pixels, this information might be meaningless to us. It gives very little explanation, why a particular pixel has been used.
 
 In this section we will explore use of standard interpretable models and we will try to argue, that they are not useful when it comes to computer vision.
 
@@ -362,3 +362,4 @@ It maybe possible to get even better results if we carefully search hyperparamet
 4. Carla D. Martin, Mason A. Porter. "The Extraordinary SVD". Accessed at https://people.maths.ox.ac.uk/porterm/papers/s4.pdf?fbclid=IwAR2rC7ho-hLqtyR0eY5KqlYV_DbaKk7KcyE9PtT4hx1MkbXtnG04fe71uEo
 5. Gongde Guo, Hui Wang , David Bell , Yaxin Bi , Kieran Greer. "KNN Model-Based Approach in Classification", School of Computing and Mathematics, University of Ulster. Accessed at http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.2.815&rep=rep1&type=pdf&fbclid=IwAR0qK9dIhhmuj4-0V98Tn6dKzjKvivmfmucJVjDqV319eW_BJfWkt92Cy5E
 6. Nicolas Papernot, Patrick McDaniel. "Deep k-Nearest Neighbors: Towards Confident,Interpretable and Robust Deep Learning", Department of Computer Science and Engineering, Pennsylvania State University, 2018. Accessed at https://arxiv.org/pdf/1803.04765.pdf?fbclid=IwAR2D5gqQf9SL0xRWBctEVrUCL9uUiIf9lZrpPN83YZYbiCGdLAlMlhhaVns
+7. Dor Bank, Noam Koenigstein, Raja Giryes. "Autoencoders", 2020. Accessed at https://arxiv.org/pdf/2003.05991.pdf
