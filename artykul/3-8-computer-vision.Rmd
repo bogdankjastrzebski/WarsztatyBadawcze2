@@ -6,7 +6,7 @@
 
 ### Abstract
 
-Interpretability of machine learning models become in recent years even more important. The need for it raised a wave of criticism towards deep neural networks (DNNs), as they are not interpretable. However, DNN can give much better results than other classifiers for different tasks, e.g. image recognition, and therefore there is a trade-off between interpretability and robustness. In this work, we investigate further the idea of Deep k-Nearest Neighbors (DkNN), simplifying the previous algorithm. We present an easy augmentation technique of k-NN classifier, that can significantly boost its performance in image recognition using autoencoders or other unsupervised learning algorithms. We obtain classifier that is interpretable in a sense, that we can provide explanatory training set observations and in the same time much more robust. This technique, however, as presented here, produced worse results than a convolutional neural network, and therefore there is still a room for improvement.
+***Interpretability of machine learning models become in recent years even more important. The need for it raised a wave of criticism towards deep neural networks (DNNs), as they are not interpretable. However, DNN can give much better results than other classifiers for different tasks, e.g. image recognition, and therefore there is a trade-off between interpretability and robustness. In this work, we investigate further the idea of Deep k-Nearest Neighbors (DkNN), simplifying the previous algorithm. We present an easy augmentation technique of k-NN classifier, that can significantly boost its performance in image recognition using autoencoders or other unsupervised learning algorithms. We obtain classifier that is interpretable in a sense, that we can provide explanatory training set observations and in the same time much more robust. This technique, however, as presented here, produced worse results than a convolutional neural network, and therefore there is still a room for improvement.***
 
 ---
 
@@ -203,9 +203,9 @@ Also we can reduce number of dimensions for k-NN.
 
 ##### 3.8.5.2.3 Convolutional Autoencoder
 
-We can create semi interpretable model by training a convolutional autoencoder and then creating k-NN classifier on pretrained embedding. As mentioned previously, it has several advantages over k-NN, because it uses euclidean distance in more meaningful space. Embedder is not interpretable, but our classifier can at least show us historical observations, that had an impact on prediction, which sometimes is good enough, especially when it can be easily seen why two images are similar and we only want a computer to do humans work. For instance, if we provide 5 images of shoe that caused that our image of shoe has been interpreted as shoe, we maybe don't know, why those images are similar according to our classifier, however we can see, that they are similar, so further explanation of a model is not required. This model, again, is not fully interpretable.
+We can create a semi-interpretable model by training a convolutional autoencoder and then creating k-NN classifier on pretrained embedding. As mentioned previously, it has several advantages over k-NN, because it uses $L^2$ distance in more meaningful space. Embedder is not interpretable, but our classifier can at least show us historical observations, that had an impact on prediction, which sometimes is good enough, especially when it can be easily seen why two images are similar and we only want a computer to do humans work. For instance, if we provide 5 images of shoe that caused that our image of the shoe has been interpreted as shoe, we maybe don't know, why those images are similar according to our classifier, however, we can see, that they are similar, so a further explanation of a model is not required. This model, again, is not fully interpretable.
 
-Our implementation of convolutional autoencoder consist of the following layers:
+Our implementation of convolutional autoencoder consists of the following layers:
 
 - Conv2d:
     - Input Channels:  1
@@ -259,28 +259,23 @@ Our implementation of convolutional autoencoder consist of the following layers:
 
 along with pooling and unpooling between.
 
-![fig. : Architecture of the convolutional autoencoder](./images/3-8-CONVAUTOENC_1.png)
+![fig. 9: Architecture of the convolutional autoencoder](./images/3-8-CONVAUTOENC_1.png)
 
 ---
 
 ### 3.8.6 Black-Box Convolutional Neural Networks
 
 
-Classical approach in computer vision is to use convolutional neural networks [3].
-A standard artificial neural network sees all variables as being independent
-from each other. It doesn't capture the same patterns across image space, nor
+The classical approach in computer vision is to use convolutional neural networks [3].
+A standard artificial neural network sees all variables as being independent of each other. It doesn't capture the same patterns across image space, nor
 it recognizes, that two pixels next to each other are somehow related. Shifted
 image is something completely different to a standard neural network from it's original.
-Therefore, training a standard neural network is tricky, it requires very big dataset
-and takes a lot of time. There is, however, a smarter approach that has a capacity
-to cope with those problems. Namely, convolutional neural networks.
+Therefore, ANN won't produce good results. There is, however, a smarter approach that can cope with those problems: convolutional neural networks.
 
+A convolutional neural network is an artificial neural network, that tries to capture spacial dependencies between variables, for instance, dimensions of pixels that are close to each other.
+It does that via introducing convolution. The easiest interpretation of what a convolutional neural network is doing is that instead of training big network that uses all variables (in our case all pixels), we train smaller transformation with a smaller number of variables (a smaller subset of pixels close to each other), that we use in many different places on the image. In some sense, we train filters. Every filter produces a corresponding so-called "channel". After the first layer, we can continue filtering channels using convolutional layers. We place a dense layer (or a number of them) at the end and its result is our prediction. For further reading, please see [3].
 
-A convolutional neural network is an artificial neural network, that tries to capture spacial dependencies between variables, for instance dimensions of pixels that are close to each other.
-It does that via introducing convolution. The easiest interpretation of convolutional neural network is that instead of training training big network that uses all variables (in our case all pixels), we train smaller transformation with smaller number of variables (smaller subset of pixels close to each other), that we use in many different places on the image. In some sense we train filters. Every filter produces a corresponding so called "channel". After first layer we can continue filtering channels using convolutional layers. We place a dense layer (or a number of them) at the end and it's result is our prediction. For further reading, please see [3] .
-
-Having a very good performance, they are impossible to explain. There are some techniques of visualizing filters, however more complex networks are generally uninterpretable. Along with standard artificial neural network, we will use it as an instance of robust classifier for comparing results.
-Our implementation of convolutional neural networks consist of the following layers:
+Having a very good performance, they are impossible to explain. There are some techniques of visualizing filters [8], however more complex networks are generally uninterpretable. Along with standard artificial neural network, we will use it as an instance of robust classifier for comparing results. Our implementation of convolutional neural networks consist of the following layers:
 
 - Conv 2d:
     - Input Channels: 1
@@ -320,7 +315,8 @@ Our implementation of convolutional neural networks consist of the following lay
     - Output_size: 10
 
 Here's architecture's visualization:
-![fig. : The architecture of the Convolutional classifier](./images/3-8-BlackBoxCONV_1.png)
+
+![fig. 10: The architecture of the Convolutional classifier](./images/3-8-BlackBoxCONV_1.png)
 
 ---
 
@@ -329,11 +325,12 @@ Here's architecture's visualization:
 | Model  | ACC |
 |-------|-----|
 | Black-Box Convolutional | 0.941 |
-| Logistic regression | 0.847 |
+| k-NN Convolutional | 0.923 |
 | k-NN base | 0.8606    |
-| k-NN SVD | 0.8001 |
 | k-NN K-means | 0.8512 |
-| k-NN Convolutional | 0.902 |
+| Logistic regression | 0.847 |
+| k-NN SVD | 0.8001 |
+
 
 ```{r, echo=FALSE}
 library(ggplot2)
@@ -353,6 +350,7 @@ In this article we proposed easy way of getting interpretable computer vision us
 
 It maybe possible to get even better results if we carefully search hyperparameter space: for example tested more architectures of convolutional autoencoder and distance functions.
 
+</div>
 
 ### Bibliography
 
