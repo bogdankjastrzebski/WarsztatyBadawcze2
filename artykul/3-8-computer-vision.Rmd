@@ -12,14 +12,14 @@ Interpretability of machine learning models become in recent years even more imp
 
 ### 3.8.1 Introduction
 
-Artificial neural networks are widely used in computer vision. Convolutional neural networks [3], in particular, can achieve very high performance on this task and surpass other popular classifiers like SVM, logistic regression and decision trees. However, the increase in performance is associated with a loss of interpretability. Artificial neural networks are infamous for their complexity and lack of interpretability and are often criticized for it. 
+Artificial neural networks are widely used in computer vision. Convolutional neural networks [3], in particular, can achieve very high performance on this task and surpass other popular classifiers like SVM, logistic regression and decision trees. However, the increase in performance is associated with a loss of interpretability. Artificial neural networks are infamous for their complexity and lack of interpretability and are often criticized for it.
 
 K-nearest neighbors classifier (k-NN) one of the simplest classification algorithms, yet it is interpretable and highly complex. The idea behind it is simple. To predict the class of a new observation, e.g. an image, we calculate the measure of similarity between it and all observations in collected training data. Then we find an arbitrarily chosen number of the most similar observations. We base our prediction on their labels.
 
-There are several problems with the k-NN. Its prediction depends on the choice of the mentioned measure of similarity. The optimal measure can be very complex and non-trivial. Let's take the problem of image recognition as our example. Two images that represent the same object on a different background can have the majority of the values of pixels different. A measure that treats each pixel independently, e.g. euclidean distance, would lead to an incorrect conclusion, that those images display very different objects. 
-The second problem with the k-NN is that it scales poorly with the size of the training dataset, as every time we make a prediction, we must measure the similarity between a new observation and all observations in our training dataset, which can become very time-consuming. 
+There are several problems with the k-NN. Its prediction depends on the choice of the mentioned measure of similarity. The optimal measure can be very complex and non-trivial. Let's take the problem of image recognition as our example. Two images that represent the same object on a different background can have the majority of the values of pixels different. A measure that treats each pixel independently, e.g. euclidean distance, would lead to an incorrect conclusion, that those images display very different objects.
+The second problem with the k-NN is that it scales poorly with the size of the training dataset, as every time we make a prediction, we must measure the similarity between a new observation and all observations in our training dataset, which can become very time-consuming.
 
-Interpretability of the k-NN classifier is in two things: interpretability of the measure of similarity we use and in that, with each prediction, we can provide the most similar observations from the training data set used to make the prediction. We argue that the latter is more important and that we can still call a model interpretable, if the measure of similarity is not. 
+Interpretability of the k-NN classifier is in two things: interpretability of the measure of similarity we use and in that, with each prediction, we can provide the most similar observations from the training data set used to make the prediction. We argue that the latter is more important and that we can still call a model interpretable, if the measure of similarity is not.
 
 The idea is not new. It has been previously investigated by Nicolas Papernot and Patrick McDaniel from Pennsylvania State University [6]. In our approach, we simplify their algorithm. We propose to use data embedding techniques to produce more meaningful spaces, where the use of p-norms as similarity measures is more justified. In this article, we will show that it is possible to increase significantly the performance of the k-NN using this technique.
 
@@ -37,7 +37,7 @@ We are going to use data set [Fashion-Mnist](https://www.openml.org/d/40996). Fa
 
 - Dress
 
-- Coat 
+- Coat
 
 - Sandal
 
@@ -53,7 +53,7 @@ We are going to use data set [Fashion-Mnist](https://www.openml.org/d/40996). Fa
 
 ### 3.8.3 Methodology
 
-The simplest and one of the most robust classifiers is k-NN. It doesn't generalize information, instead, it saves training dataset and during prediction, it finds the most similar historical observations and predicts the label of a new observation based on their labels. However, it not only can't distinguish important features from not important ones but also to find more complex interactions between variables. 
+The simplest and one of the most robust classifiers is k-NN. It doesn't generalize information, instead, it saves training dataset and during prediction, it finds the most similar historical observations and predicts the label of a new observation based on their labels. However, it not only can't distinguish important features from not important ones but also to find more complex interactions between variables.
 
 One of the simplest, yet very robust classification algorithms is k-NN. It does not generalize knowledge, instead, it finds the most similar observations from the training data set to new observation and predicts its class based on theirs. However, it's not only unable to distinguish important from irrelevant features, but also find interactions between variables.
 
@@ -86,16 +86,16 @@ $$Autoenc = Decoder \circ Encoder$$
 
 where $Encoder: \mathbb{R}^n \rightarrow \mathbb{R}^m$, $Decoder: \mathbb{R}^m \rightarrow \mathbb{R}^n$ and $n>m$.
 We want our autoencoder: $min_\theta \sum_{i=1}^{n}\|(Decoder_\theta \circ Encoder_\theta)(x_i)-x_i \|$. It basically means that after using encoder and decoder our data is minimally changed.
-    
+
 Thanks to using encoder we can compress data to smaller space without losing too much information. Because of smaller space every column is now more meaningful and therefore data is easier for k-NN.
 
 
 
 ### 3.8.4 The use of standard intepretable models in computer vision
 
-We often think of logistic regression or decision tree classifier as being interpretable. Their interpretability, however, relies strongly on the interpretability of observation features.  When features are hardly interpretable, the information that a particular feature has been used is meaningless. For instance, if we know, that at some point classifier makes a choice based on the age of the patient, it is a piece of meaningful information.  On the other hand, if we know, that at some point classifier makes a choice based on one of a million pixels, this information might be meaningless to us. It gives very little explanation, why a particular pixel has been used. 
+We often think of logistic regression or decision tree classifier as being interpretable. Their interpretability, however, relies strongly on the interpretability of observation features.  When features are hardly interpretable, the information that a particular feature has been used is meaningless. For instance, if we know, that at some point classifier makes a choice based on the age of the patient, it is a piece of meaningful information.  On the other hand, if we know, that at some point classifier makes a choice based on one of a million pixels, this information might be meaningless to us. It gives very little explanation, why a particular pixel has been used.
 
-Interpretability of decision tree classifier or linear regression comes directly from 
+Interpretability of decision tree classifier or linear regression comes directly from
 
 In this section we will explore use of standard interpretable models and we will try to argue, that they are not useful when it comes to computer vision.
 
@@ -107,7 +107,7 @@ Logistic regression[1] is a basic classification model. We get the probability o
 
 $${\displaystyle p={\frac {e^{\beta _{0}+\beta _{1}x_{1}+...+\beta _{n}x_{n}}}{e^{\beta _{0}+\beta _{1}x_{1}+...+\beta _{n}x_{n}}+1}}}$$
 
-where $\beta _{0},\beta _{1},...,\beta _{n}$ are coefficients of logistic regression. We obtain coefficients using gradient descent. Because we have multiple labels so we train 10 different logistic regression models and use softmax function to normalize probabilities of belonging to any particular class. 
+where $\beta _{0},\beta _{1},...,\beta _{n}$ are coefficients of logistic regression. We obtain coefficients using gradient descent. Because we have multiple labels so we train 10 different logistic regression models and use softmax function to normalize probabilities of belonging to any particular class.
 We then visualize coefficients as images with bright spots indicating that they are important.
 Unfortunately the results look like this:
 
@@ -131,9 +131,9 @@ In this section we will show an alternative to logistic regression and decision 
 
 #### 3.8.5.1 The k-NN Classifier
 
-k-NN (k nearest neighbors) is a classifier, that doesn't generalize data. Instead, we keep the training dataset, and every time we make a prediction, we calculate the distance (for instance euclidean distance) between our new observation and all observations in the training dataset to find k nearest. Prediction is based on their labels. 
+k-NN (k nearest neighbors) is a classifier, that doesn't generalize data. Instead, we keep the training dataset, and every time we make a prediction, we calculate the distance (for instance euclidean distance) between our new observation and all observations in the training dataset to find k nearest. Prediction is based on their labels.
 
-k-NN is a robust classifier, that copes with highly nonlinear data. It's also interpretable because we can always show k nearest neighbors, which are an explanation by themselves. It, however, is not flawless. It for instance poorly scales with the size of the training dataset, while at the same time it needs, at least in some domains, a very big training dataset, as it doesn't generalize any information. 
+k-NN is a robust classifier, that copes with highly nonlinear data. It's also interpretable because we can always show k nearest neighbors, which are an explanation by themselves. It, however, is not flawless. It for instance poorly scales with the size of the training dataset, while at the same time it needs, at least in some domains, a very big training dataset, as it doesn't generalize any information.
 
 We can significantly improve its performance by introducing complex similarity functions. If the similarity function is interpretable, we obtain a highly interpretable classifier. If not, we get semi interpretable classifier, where we cannot tell, why observations are similar according to the model, however, we can at least show similar training set examples, based on which prediction has been made.
 
@@ -159,7 +159,7 @@ In this section, we will explore different embedding techniques and their potent
 
 ##### 3.8.5.2.1 K-means
 
-We use K-means algorithm [2] (also known as Lloyd algorithm) to find subclasses in every class. 
+We use K-means algorithm [2] (also known as Lloyd algorithm) to find subclasses in every class.
 Algorithm:
 
 1. Initiate number of random centroids
@@ -188,14 +188,14 @@ Chosen points approximate sufficiently training data distribution. Notice, that 
 
 ##### 3.8.5.2.2 SVD
 
-SVD is a standard method of dimensionality reduction [4]. It is rewriting $m\times n$ matrix 
-$M$ as $U\Sigma V^T$ where $U$ is $m\times m$ orthonormal matrix, $V^T$ is $n\times n$ orthonormal matrix 
+SVD is a standard method of dimensionality reduction [4]. It is rewriting $m\times n$ matrix
+$M$ as $U\Sigma V^T$ where $U$ is $m\times m$ orthonormal matrix, $V^T$ is $n\times n$ orthonormal matrix
 and $\Sigma$ is $m\times n$ rectangular diagonal matrix with non-negative real numbers on the diagonal.
-We assume that singular values of $\Sigma$ are in descending order. Now by taking first columns of $V^T$ we 
+We assume that singular values of $\Sigma$ are in descending order. Now by taking first columns of $V^T$ we
 get vectors which are the most relevant. Let $V_n$ be matrix, whose columns are $V$ columns with n greatest eigenvalues. Such matrix is linear transformation matrix, that turns observations into their embedding. It can be shown, that $V_n$ is the best transformation in L2 norm sense.
 
 ![fig. 5: SVD autoencoder diagram](./images/3-8-SVDAUTOENC_1.png)
-We can then visualize this vectors and see which parts of the picture are the most important. 
+We can then visualize this vectors and see which parts of the picture are the most important.
 Also we can reduce number of dimensions for k-NN.
 
 ![fig. 6: Most important eigenvector](./images/3-8-HIDDEN.png)
@@ -237,27 +237,27 @@ Our implementation of convolutional autoencoder consist of the following layers:
     - Output Channels:  1
     - filter size: 5
 
-- Conv2d: 
+- Conv2d:
     - Input Channels:  1
     - Output Channels: 10
     - filter size: 5
 
-- Conv2d: 
+- Conv2d:
     - Input Channels: 10
     - Output Channels: 10
     - filter size: 5
 
-- Conv2d: 
+- Conv2d:
     - Input Channels: 10
     - Output Channels: 50
     - filter size: 5
 
-- Conv2d: 
+- Conv2d:
     - Input Channels: 50
     - Output Channels: 50
     - filter size: 5
 
-- Conv2d: 
+- Conv2d:
     - Input Channels: 50
     - Output Channels:  1
     - filter size: 5
@@ -272,9 +272,9 @@ along with pooling and unpooling between.
 
 
 Classical approach in computer vision is to use convolutional neural networks [3].
-A standard artificial neural network sees all variables as being independent 
+A standard artificial neural network sees all variables as being independent
 from each other. It doesn't capture the same patterns across image space, nor
-it recognizes, that two pixels next to each other are somehow related. Shifted 
+it recognizes, that two pixels next to each other are somehow related. Shifted
 image is something completely different to a standard neural network from it's original.
 Therefore, training a standard neural network is tricky, it requires very big dataset
 and takes a lot of time. There is, however, a smarter approach that has a capacity
@@ -284,25 +284,25 @@ to cope with those problems. Namely, convolutional neural networks.
 A convolutional neural network is an artificial neural network, that tries to capture spacial dependencies between variables, for instance dimensions of pixels that are close to each other.
 It does that via introducing convolution. The easiest interpretation of convolutional neural network is that instead of training training big network that uses all variables (in our case all pixels), we train smaller transformation with smaller number of variables (smaller subset of pixels close to each other), that we use in many different places on the image. In some sense we train filters. Every filter produces a corresponding so called "channel". After first layer we can continue filtering channels using convolutional layers. We place a dense layer (or a number of them) at the end and it's result is our prediction. For further reading, please see [3] .
 
-Having a very good performance, they are impossible to explain. There are some techniques of visualizing filters, however more complex networks are generally uninterpretable. Along with standard artificial neural network, we will use it as an instance of robust classifier for comparing results. 
+Having a very good performance, they are impossible to explain. There are some techniques of visualizing filters, however more complex networks are generally uninterpretable. Along with standard artificial neural network, we will use it as an instance of robust classifier for comparing results.
 Our implementation of convolutional neural networks consist of the following layers:
 
 - Conv 2d:
     - Input Channels: 1
     - Output Channels: 50
     - filter size: 5
-    
+
 - Max Pool:
     - Size: 2
-    
+
 - Conv 2d:
     - Input Channels: 50
     - Output Channels: 70
     - filter size: 5
-    
+
 - Max Pool:
     - Size: 2
-    
+
 - Conv 2d:
     - Input Channels: 70
     - Output Channels: 100
@@ -316,11 +316,11 @@ Our implementation of convolutional neural networks consist of the following lay
     - Output Channels: 150
     - filter size: 5
 
-- Linear: 
+- Linear:
     - Input_size: 1350
     - Output_size: 500
 
-- Linear: 
+- Linear:
     - Input_size: 200
     - Output_size: 10
 
@@ -333,14 +333,29 @@ Here's architecture's visualization:
 
 | Model  | ACC |
 |-------|-----|
-| Black-Box Convolutional | 0.941 | 
-| Logistic regression | 0.847 | 
-| k-NN base | 0.8606    | 
+| Black-Box Convolutional | 0.941 |
+| Logistic regression | 0.847 |
+| k-NN base | 0.8606    |
 | k-NN SVD | 0.8001 |
 | k-NN K-means | 0.8512 |
 | k-NN Convolutional | 0.902 |
 
+```{r}
+library(ggplot2)
+
+ggplot()+geom_col(aes(x=c("Conv Net","Logistic regression","k-NN base","k-NN SVD","k-NN K-means","k-NN Convolutional"),
+                      y=c(0.941,0.847,0.8606,0.8001,0.8512,0.902)))+theme(axis.text.x =element_text(angle = 0,face = "bold"))+labs(x="model",y="Accuracy")
+```
+
+We use accuracy because classes are balanced and any measure which for accounts for similarities between classes (for example classifying Sandal as Ankle boot is worth more than classifying Sandal as Bag) seemed arbitraly to us.
+
+As expected Convolutional Neural Network is by far the best model here. However we still achieved something. While using emmbedders such as K-means and SVD resulted in worse results, the accuracy was not that much worse and we reduced dimensionality at least thousand folds, which resulted in much faster calculations. Using Convolutional emmbedder got us second best results and while it is semi interpretable it is still better than base K-NN and Logistic regression which turned out to be not interpretable.
+
+
 ### Conclusions
+In this article we proposed easy way of getting interpretable computer vision using convolutional emmbedder. While it is not fully interpretable, explainations are not made post factum as in traditional neural networks and it is achieving better results than less robust classifiers.
+
+It maybe possible to get even better results if we carefully search hyperparameter space: for example tested more architectures of convolutional autoencoder and distance functions.
 
 
 ### Bibliography
@@ -351,6 +366,3 @@ Here's architecture's visualization:
 4. Carla D. Martin, Mason A. Porter. "The Extraordinary SVD". Accessed at https://people.maths.ox.ac.uk/porterm/papers/s4.pdf?fbclid=IwAR2rC7ho-hLqtyR0eY5KqlYV_DbaKk7KcyE9PtT4hx1MkbXtnG04fe71uEo
 5. Gongde Guo, Hui Wang , David Bell , Yaxin Bi , Kieran Greer. "KNN Model-Based Approach in Classification", School of Computing and Mathematics, University of Ulster. Accessed at http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.2.815&rep=rep1&type=pdf&fbclid=IwAR0qK9dIhhmuj4-0V98Tn6dKzjKvivmfmucJVjDqV319eW_BJfWkt92Cy5E
 6. Nicolas Papernot, Patrick McDaniel. "Deep k-Nearest Neighbors: Towards Confident,Interpretable and Robust Deep Learning", Department of Computer Science and Engineering, Pennsylvania State University, 2018. Accessed at https://arxiv.org/pdf/1803.04765.pdf?fbclid=IwAR2D5gqQf9SL0xRWBctEVrUCL9uUiIf9lZrpPN83YZYbiCGdLAlMlhhaVns
-
-
-            
