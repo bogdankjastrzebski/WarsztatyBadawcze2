@@ -14,7 +14,7 @@
 
 Artificial neural networks are widely used in computer vision. Convolutional neural networks [3], in particular, can achieve very high performance on this task and surpass other popular classifiers like SVM, logistic regression, and decision trees. However, the increase in performance is associated with a loss of interpretability. Artificial neural networks are infamous for their complexity and lack of interpretability and are often criticized for it.
 
-K-nearest neighbors classifier (k-NN) one of the simplest classification algorithms, yet it is interpretable and highly complex. The idea behind it is simple. To predict the class of a new observation, e.g. an image, we calculate the measure of similarity between it and all observations in collected training data. Then we find an arbitrarily chosen number of the most similar observations. We base our prediction on their labels.
+K-nearest neighbours classifier (k-NN) one of the simplest classification algorithms, yet it is interpretable and highly complex. The idea behind it is simple. To predict the class of a new observation, e.g. an image, we calculate the measure of similarity between it and all observations in collected training data. Then we find an arbitrarily chosen number of the most similar observations. We base our prediction on their labels.
 
 There are several problems with k-NN. Its prediction depends on the choice of the mentioned measure of similarity. The optimal measure can be very complex and non-trivial. Let's take the problem of image recognition as our example. Two images that represent the same object on a different background can have the majority of the values of pixels different. A measure that treats each pixel independently, e.g. euclidean distance, would lead to an incorrect conclusion, that those images display very different objects.
 The second problem with the k-NN is that it scales poorly with the size of the training dataset, as every time we make a prediction, we must measure the similarity between a new observation and all observations in our training dataset, which can become very time-consuming.
@@ -127,9 +127,9 @@ In this section we will show an alternative to logistic regression and decision 
 
 #### 3.8.5.1 The k-NN Classifier
 
-k-NN (k nearest neighbors) is a classifier, that doesn't generalize data. Instead, we keep the training dataset, and every time we make a prediction, we calculate the distance (for instance euclidean distance) between our new observation and all observations in the training dataset to find k nearest. Prediction is based on their labels.
+k-NN (k nearest neighbours) is a classifier, that doesn't generalize data. Instead, we keep the training dataset, and every time we make a prediction, we calculate the distance (for instance euclidean distance) between our new observation and all observations in the training dataset to find k nearest. Prediction is based on their labels.
 
-k-NN is a robust classifier, that copes with highly nonlinear data. It's also interpretable because we can always show k nearest neighbors, which are an explanation by themselves. It, however, is not flawless. It for instance poorly scales with the size of the training dataset, while at the same time it needs, at least in some domains, a very big training dataset, as it doesn't generalize any information.
+k-NN is a robust classifier, that copes with highly nonlinear data. It's also interpretable because we can always show k nearest neighbours, which are an explanation by themselves. It, however, is not flawless. It for instance poorly scales with the size of the training dataset, while at the same time it needs, at least in some domains, a very big training dataset, as it doesn't generalize any information.
 
 We can significantly improve its performance by introducing complex similarity functions. If the similarity function is interpretable, we obtain a highly interpretable classifier. If not, we get semi interpretable classifier, where we cannot tell, why observations are similar according to the model, however, we can at least show similar training set examples, based on which prediction has been made.
 
@@ -190,8 +190,8 @@ We assume that singular values of $\Sigma$ are in descending order. Now by takin
 get vectors that are the most relevant. Let $V_n$ be a matrix, whose columns are $V$ columns with n greatest eigenvalues. Such a matrix is a linear transformation matrix, that turns observations into their embedding. It can be shown, that $V_n$ is the best transformation in L2 norm sense.
 
 ![<b>Fig. 5: SVD autoencoder diagram</b>](./images/3-8-SVDAUTOENC_1.png)
-We can then visualize this vectors and see which parts of the picture are the most important.
-Also we can reduce number of dimensions for k-NN.
+We can then visualize these vectors and see which parts of the picture are the most important.
+Also, we can reduce the number of dimensions for k-NN.
 
 ![<b>Fig. 6: Most important eigenvector</b>](./images/3-8-HIDDEN.png)
 
@@ -363,4 +363,4 @@ It may be possible to get even better results if we carefully search hyperparame
 6. Nicolas Papernot, Patrick McDaniel. "Deep k-Nearest Neighbors: Towards Confident, Interpretable and Robust Deep Learning", Department of Computer Science and Engineering, Pennsylvania State University, 2018. Accessed at https://arxiv.org/pdf/1803.04765.pdf?fbclid=IwAR2D5gqQf9SL0xRWBctEVrUCL9uUiIf9lZrpPN83YZYbiCGdLAlMlhhaVns
 7. Dor Bank, Noam Koenigstein, Raja Giryes. "Autoencoders", 2020. Accessed at https://arxiv.org/pdf/2003.05991.pdf
 8. D. Erhan, Y. Bengio, A. Courville, and P. Vincent. "Visualizing higher layer features of a deep network", University of Montreal, vol. 1341,
-no. 3, p. 1, 2009.
+no. 3, p. 1, 2009. 
