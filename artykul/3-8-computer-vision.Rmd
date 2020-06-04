@@ -335,7 +335,7 @@ Here's architecture's visualization:
 | k-NN K-means | 0.8512 |
 | k-NN Convolutional | 0.902 |
 
-```{r}
+```{r, echo=FALSE}
 library(ggplot2)
 
 ggplot()+geom_col(aes(x=c("Conv Net","Logistic regression","k-NN base","k-NN SVD","k-NN K-means","k-NN Convolutional"),
