@@ -27,7 +27,7 @@ The idea is not new. It has been previously investigated by Nicolas Papernot and
 
 ### 3.8.2  Data
 
-We are going to use dataset [Fashion-Mnist](https://www.openml.org/d/40996). Fashion-MNIST is a dataset of Zalando's article images, consisting of a training set of 60,000 examples and a test set of 10,000 examples. Each example is a 28x28 grayscale image, associated with a label from 10 classes. Classes are following:
+We are going to use data set [Fashion-Mnist](https://www.openml.org/d/40996). Fashion-MNIST is a dataset of Zalando's article images, consisting of a training set of 60,000 examples and a test set of 10,000 examples. Each example is a 28x28 grayscale image, associated with a label from 10 classes. Classes are following:
 
 - T-shirt/top
 
@@ -76,12 +76,18 @@ An embedding can be done made in various ways. In this article we will explore d
 
 ### 3.8.4 Autoenconders and Embedding
 
-An embedding 
+In theory of information and statistics we distinguish data from information. Data is carrier of information. Information is something in data, that is meaningful to us. For instance, consider two highly correlated random variables $X$ and $Y$. Knowing the value of one, gives us great knowledge of the value of the other. Hence, if we have prior knowledge about the way in which those variables are connected: $2X + 3 \approx Y$, there is little difference between knowing the value of one of them: $X = 23.3454$, and both values:$X = 23.3454, Y = 48.9877$, because we can roughly guess value of one based on the other: $X = 23.3454, 2X + 3 \approx Y \models Y \approx 49.6908$. The relation between variables can be very complex. We still lose some information though.
 
-An autoencoder consists of two parts, the encoder and the decoder, which can be defined as functions $Encoder: \mathbb{R}^n \rightarrow \mathbb{R}^m$ and $Decoder: \mathbb{R}^m \rightarrow \mathbb{R}^n$ where $n>m$.
-We want our autoencoder to be such that: $min_\theta \sum_{i=1}^{n}\|(Decoder_\theta \circ Encoder_\theta)(x_i)-x_i \|$. It basically means that after using encoder and decoder our data is minimally changed.
+In statistics and machine leaning we try to represent data in a meaningful way, in that sense, representation gives us a lot of information in very little data. In other words, we try to find a way to compress data. One way to do so is to use autoencoders.
+
+An autoencoder is a parametric function composed of two parts: the encoder part and the decoder part.
+
+$$Autoenc = Decoder \circ Encoder$$
+
+where $Encoder: \mathbb{R}^n \rightarrow \mathbb{R}^m$, $Decoder: \mathbb{R}^m \rightarrow \mathbb{R}^n$ and $n>m$.
+We want our autoencoder: $min_\theta \sum_{i=1}^{n}\|(Decoder_\theta \circ Encoder_\theta)(x_i)-x_i \|$. It basically means that after using encoder and decoder our data is minimally changed.
     
-
+Thanks to using encoder we can compress data to smaller space without losing too much information. Because of smaller space every column is now more meaningful and therefore data is easier for k-NN.
 
 
 
@@ -145,7 +151,9 @@ As we can see, new image firstly gets embedded and then a standard classificatio
 
 #### 3.8.5.2 Embedding techniques
 
-In this section, we will explore different embedding techniques.
+
+
+In this section, we will explore different embedding techniques and their potential use.
 
 ---
 

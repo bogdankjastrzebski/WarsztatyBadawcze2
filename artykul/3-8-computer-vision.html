@@ -386,7 +386,7 @@ summary {
 </div>
 <div id="data" class="section level3">
 <h3>3.8.2 Data</h3>
-<p>We are going to use dataset <a href="https://www.openml.org/d/40996">Fashion-Mnist</a>. Fashion-MNIST is a dataset of Zalando’s article images, consisting of a training set of 60,000 examples and a test set of 10,000 examples. Each example is a 28x28 grayscale image, associated with a label from 10 classes. Classes are following:</p>
+<p>We are going to use data set <a href="https://www.openml.org/d/40996">Fashion-Mnist</a>. Fashion-MNIST is a dataset of Zalando’s article images, consisting of a training set of 60,000 examples and a test set of 10,000 examples. Each example is a 28x28 grayscale image, associated with a label from 10 classes. Classes are following:</p>
 <ul>
 <li><p>T-shirt/top</p></li>
 <li><p>Trouser</p></li>
@@ -418,8 +418,9 @@ summary {
 </div>
 <div id="autoenconders-and-embedding" class="section level3">
 <h3>3.8.4 Autoenconders and Embedding</h3>
-<p>An embedding</p>
+<p>In theory of information and statistics we distinguish data from information. Data is carrier of information. Information is something in data, that is meaningful to us. For instance, consider two highly correlated random variables <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>. Knowing the value of one, gives us great knowledge of the value of the other. Hence, if we have prior knowledge about the way in which those variables are connected, there is little difference between knowing the value of one of them (<span class="math inline">\(X = 23.3454\)</span>) and both values (<span class="math inline">\(X = 23.3454, Y = 48.9877\)</span>), because we can roughly guess value of one based on the other (<span class="math inline">\(X = 23.3454, 2X + 3 \approx Y \models Y \approx 49.6908\)</span>).</p>
 <p>An autoencoder consists of two parts, the encoder and the decoder, which can be defined as functions <span class="math inline">\(Encoder: \mathbb{R}^n \rightarrow \mathbb{R}^m\)</span> and <span class="math inline">\(Decoder: \mathbb{R}^m \rightarrow \mathbb{R}^n\)</span> where <span class="math inline">\(n&gt;m\)</span>. We want our autoencoder to be such that: <span class="math inline">\(min_\theta \sum_{i=1}^{n}\|(Decoder_\theta \circ Encoder_\theta)(x_i)-x_i \|\)</span>. It basically means that after using encoder and decoder our data is minimally changed.</p>
+<p>Thanks to using encoder we can compress data to smaller space without losing too much information. Because of smaller space every column is now more meaningful and therefore data is easier for k-NN.</p>
 </div>
 <div id="the-use-of-standard-intepretable-models-in-computer-vision" class="section level3">
 <h3>3.8.4 The use of standard intepretable models in computer vision</h3>
@@ -429,7 +430,7 @@ summary {
 <hr />
 <div id="logistic-regression" class="section level4">
 <h4>3.8.4.1 Logistic Regression</h4>
-<p>Logistic regression is basic classification model [1]. We get probability of belonging to given class by:</p>
+<p>Logistic regression[1] is a basic classification model. We get the probability of belonging to a given class by:</p>
 <p><span class="math display">\[{\displaystyle p={\frac {e^{\beta _{0}+\beta _{1}x_{1}+...+\beta _{n}x_{n}}}{e^{\beta _{0}+\beta _{1}x_{1}+...+\beta _{n}x_{n}}+1}}}\]</span></p>
 <p>where <span class="math inline">\(\beta _{0},\beta _{1},...,\beta _{n}\)</span> are coefficients of logistic regression. We obtain coefficients using gradient descent. Because we have multiple labels so we train 10 different logistic regression models and use softmax function to normalize probabilities of belonging to any particular class. We then visualize coefficients as images with bright spots indicating that they are important. Unfortunately the results look like this:</p>
 <div class="figure">
@@ -465,7 +466,7 @@ summary {
 </div>
 <div id="embedding-techniques" class="section level4">
 <h4>3.8.5.2 Embedding techniques</h4>
-<p>In this section, we will explore different embedding techniques.</p>
+<p>In this section, we will explore different embedding techniques and their potential use.</p>
 <hr />
 <div id="k-means" class="section level5">
 <h5>3.8.5.2.1 K-means</h5>
