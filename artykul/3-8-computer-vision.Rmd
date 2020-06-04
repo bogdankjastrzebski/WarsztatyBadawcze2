@@ -107,7 +107,7 @@ where $\beta _{0},\beta _{1},...,\beta _{n}$ are coefficients of logistic regres
 We then visualize coefficients as images with bright spots indicating that they are important.
 Unfortunately the results look like this:
 
-![fig. 1: An example of logistic regression weights](./images/3-8-LOGREG.png)
+![<b>Fig. 1: An example of logistic regression weights</b>](./images/3-8-LOGREG.png)
 
 We get this because logistic regression works more like a sieve.
 
@@ -139,7 +139,7 @@ $$dist(Img1, Img2) = d_e(Emb(Img1), Emb(Img2))$$
 
 where $d_e$ is the euclidean distance, so we simply compute the euclidean distance between embeddings of images. The scheme of our augmented k-NN classifier is displayed on fig. 1.
 
-![fig. 1: The k-NN Classifier Architecture](images/3-8-KNNMODEL_1.png)
+![<b>Fig. 1: The k-NN Classifier Architecture</b>](images/3-8-KNNMODEL_1.png)
 
 
 As we can see, new image firstly gets embedded and then a standard classification with k-NN is made. This type of architecture allows us to create a robust and interpretable classifier.
@@ -169,15 +169,15 @@ Algorithm:
 
 We use euclidean distance. Prediction for every new observation is simply class of nearest centroid. The algorithm is even more interpretable because we can visualize centroids as images. Thanks to using K-means to find subclasses our images are not blurry. Also because the number of all subclasses is much lower than the number of records in data set using k-NN only on centroids is much faster. Consider the following dataset:
 
-![fig 2: An example of centroid image](images/3-8-KMEANS_1.png)
+![<b>Fig 2: An example of centroid image</b>](images/3-8-KMEANS_1.png)
 
 In fact, a good subset of the training data set is enough to create a very good classifier. For instance we can choose:
 
-![fig 3: An example of centroid image](images/3-8-KMEANS_2.png)
+![<b>Fig 3: An example of centroid image</b>](images/3-8-KMEANS_2.png)
 
 Chosen points approximate sufficiently training data distribution. Notice, that we in fact don't have to choose particular observations. We can instead chose points in observation space that are similar to observations. This is what k-means algorithm do and so, we can obtain good training data approximation using k-means. Here's an example of a centroid image:
 
-![fig 4: An example of a centroid image](images/3-8-KLAPEK.png)
+![<b>Fig 4: An example of a centroid image</b>](images/3-8-KLAPEK.png)
 
 ---
 
@@ -189,15 +189,15 @@ and $\Sigma$ is $m\times n$ rectangular diagonal matrix with non-negative real n
 We assume that singular values of $\Sigma$ are in descending order. Now by taking first columns of $V^T$ we
 get vectors which are the most relevant. Let $V_n$ be matrix, whose columns are $V$ columns with n greatest eigenvalues. Such matrix is linear transformation matrix, that turns observations into their embedding. It can be shown, that $V_n$ is the best transformation in L2 norm sense.
 
-![fig. 5: SVD autoencoder diagram](./images/3-8-SVDAUTOENC_1.png)
+![<b>Fig. 5: SVD autoencoder diagram</b>](./images/3-8-SVDAUTOENC_1.png)
 We can then visualize this vectors and see which parts of the picture are the most important.
 Also we can reduce number of dimensions for k-NN.
 
-![fig. 6: Most important eigenvector](./images/3-8-HIDDEN.png)
+![<b>Fig. 6: Most important eigenvector</b>](./images/3-8-HIDDEN.png)
 
-![fig. 7: Image from Dataset](./images/3-8-KURTKA.png)
+![<b>Fig. 7: Image from Dataset</b>](./images/3-8-KURTKA.png)
 
-![fig. 8: Image after using vector as filter](./images/3-8-KURTKA_HIDDEN.png)
+![<b>Fig. 8: Image after using vector as filter</b>](./images/3-8-KURTKA_HIDDEN.png)
 
 ---
 
@@ -259,7 +259,7 @@ Our implementation of convolutional autoencoder consists of the following layers
 
 along with pooling and unpooling between.
 
-![fig. 9: Architecture of the convolutional autoencoder](./images/3-8-CONVAUTOENC_1.png)
+![<b>Fig. 9: Architecture of the convolutional autoencoder</b>](./images/3-8-CONVAUTOENC_1.png)
 
 ---
 
@@ -316,7 +316,7 @@ Having a very good performance, they are impossible to explain. There are some t
 
 Here's architecture's visualization:
 
-![fig. 10: The architecture of the Convolutional classifier](./images/3-8-BlackBoxCONV_1.png)
+![<b>Fig. 10: The architecture of the Convolutional classifier.</b> ](./images/3-8-BlackBoxCONV_1.png)
 
 ---
 
@@ -336,7 +336,8 @@ Here's architecture's visualization:
 library(ggplot2)
 
 ggplot()+geom_col(aes(x=c("Conv Net","Logistic regression","k-NN base","k-NN SVD","k-NN K-means","k-NN Convolutional"),
-                      y=c(0.941,0.847,0.8606,0.8001,0.8512,0.902)))+theme(axis.text.x =element_text(angle = 0,face = "bold"))+labs(x="model",y="Accuracy")
+                      y=c(0.941,0.847,0.8606,0.8001,0.8512,0.902)))+
+    theme(axis.text.x =element_text(angle = 0,face = "bold"))+labs(x="model",y="Accuracy")
 ```
 
 We use accuracy because classes are balanced and any measure which for accounts for similarities between classes (for example classifying Sandal as Ankle boot is worth more than classifying Sandal as Bag) seemed arbitraly to us.
