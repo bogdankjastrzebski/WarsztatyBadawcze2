@@ -78,7 +78,7 @@ An embedding can be done made in various ways. In this article we will explore d
 
 In theory of information and statistics we distinguish data from information. Data is carrier of information. Information is something in data, that is meaningful to us. For instance, consider two highly correlated random variables $X$ and $Y$. Knowing the value of one, gives us great knowledge of the value of the other. Hence, if we have prior knowledge about the way in which those variables are connected: $2X + 3 \approx Y$, there is little difference between knowing the value of one of them: $X = 23.3454$, and both values:$X = 23.3454, Y = 48.9877$, because we can roughly guess value of one based on the other: $X = 23.3454, 2X + 3 \approx Y \models Y \approx 49.6908$. The relation between variables can be very complex. We still lose some information though.
 
-In statistics and machine leaning we try to represent data in a meaningful way, in that sense, representation gives us a lot of information in very little data. In other words, we try to find a way to compress data. One way to do so is to use autoencoders.
+In statistics and machine leaning we try to represent data in a meaningful way, in that sense, representation gives us a lot of information in very little data. In other words, we try to find a way to compress data. One way to do so is to use autoencoders[7].
 
 An autoencoder is a parametric function composed of two parts: the encoder part and the decoder part.
 
@@ -366,3 +366,4 @@ It maybe possible to get even better results if we carefully search hyperparamet
 4. Carla D. Martin, Mason A. Porter. "The Extraordinary SVD". Accessed at https://people.maths.ox.ac.uk/porterm/papers/s4.pdf?fbclid=IwAR2rC7ho-hLqtyR0eY5KqlYV_DbaKk7KcyE9PtT4hx1MkbXtnG04fe71uEo
 5. Gongde Guo, Hui Wang , David Bell , Yaxin Bi , Kieran Greer. "KNN Model-Based Approach in Classification", School of Computing and Mathematics, University of Ulster. Accessed at http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.2.815&rep=rep1&type=pdf&fbclid=IwAR0qK9dIhhmuj4-0V98Tn6dKzjKvivmfmucJVjDqV319eW_BJfWkt92Cy5E
 6. Nicolas Papernot, Patrick McDaniel. "Deep k-Nearest Neighbors: Towards Confident,Interpretable and Robust Deep Learning", Department of Computer Science and Engineering, Pennsylvania State University, 2018. Accessed at https://arxiv.org/pdf/1803.04765.pdf?fbclid=IwAR2D5gqQf9SL0xRWBctEVrUCL9uUiIf9lZrpPN83YZYbiCGdLAlMlhhaVns
+7. Dor Bank, Noam Koenigstein, Raja Giryes. "Autoencoders", 2020. Accessed at https://arxiv.org/pdf/2003.05991.pdf
