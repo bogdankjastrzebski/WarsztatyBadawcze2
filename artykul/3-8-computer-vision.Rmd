@@ -6,20 +6,20 @@
 
 ### Abstract
 
-***Interpretability of machine learning models become in recent years even more important. The need for it raised a wave of criticism towards deep neural networks (DNNs), as they are not interpretable. However, DNN can give much better results than other classifiers for different tasks, e.g. image recognition, and therefore there is a trade-off between interpretability and robustness. In this work, we investigate further the idea of Deep k-Nearest Neighbors (DkNN), simplifying the previous algorithm. We present an easy augmentation technique of k-NN classifier, that can significantly boost its performance in image recognition using autoencoders or other unsupervised learning algorithms. We obtain classifier that is interpretable in a sense, that we can provide explanatory training set observations and in the same time much more robust. This technique, however, as presented here, produced worse results than a convolutional neural network, and therefore there is still a room for improvement.***
+***Interpretability of machine learning models become in recent years even more important. The need for it raised a wave of criticism towards deep neural networks (DNNs), as they are not interpretable. However, DNN can give much better results than other classifiers for different tasks, e.g. image recognition, and therefore there is a trade-off between interpretability and robustness. In this work, we investigate further the idea of Deep k-Nearest Neighbors (DkNN), simplifying the previous algorithm. We present an easy augmentation technique of k-NN classifier, that can significantly boost its performance in image recognition using autoencoders or other unsupervised learning algorithms. We obtain a classifier that is interpretable in a sense, that we can provide explanatory training set observations and at the same time much more robust. This technique, however, as presented here, produced worse results than a convolutional neural network, and therefore there is still a room for improvement.***
 
 ---
 
 ### 3.8.1 Introduction
 
-Artificial neural networks are widely used in computer vision. Convolutional neural networks [3], in particular, can achieve very high performance on this task and surpass other popular classifiers like SVM, logistic regression and decision trees. However, the increase in performance is associated with a loss of interpretability. Artificial neural networks are infamous for their complexity and lack of interpretability and are often criticized for it.
+Artificial neural networks are widely used in computer vision. Convolutional neural networks [3], in particular, can achieve very high performance on this task and surpass other popular classifiers like SVM, logistic regression, and decision trees. However, the increase in performance is associated with a loss of interpretability. Artificial neural networks are infamous for their complexity and lack of interpretability and are often criticized for it.
 
 K-nearest neighbors classifier (k-NN) one of the simplest classification algorithms, yet it is interpretable and highly complex. The idea behind it is simple. To predict the class of a new observation, e.g. an image, we calculate the measure of similarity between it and all observations in collected training data. Then we find an arbitrarily chosen number of the most similar observations. We base our prediction on their labels.
 
-There are several problems with the k-NN. Its prediction depends on the choice of the mentioned measure of similarity. The optimal measure can be very complex and non-trivial. Let's take the problem of image recognition as our example. Two images that represent the same object on a different background can have the majority of the values of pixels different. A measure that treats each pixel independently, e.g. euclidean distance, would lead to an incorrect conclusion, that those images display very different objects.
+There are several problems with k-NN. Its prediction depends on the choice of the mentioned measure of similarity. The optimal measure can be very complex and non-trivial. Let's take the problem of image recognition as our example. Two images that represent the same object on a different background can have the majority of the values of pixels different. A measure that treats each pixel independently, e.g. euclidean distance, would lead to an incorrect conclusion, that those images display very different objects.
 The second problem with the k-NN is that it scales poorly with the size of the training dataset, as every time we make a prediction, we must measure the similarity between a new observation and all observations in our training dataset, which can become very time-consuming.
 
-Interpretability of the k-NN classifier is in two things: interpretability of the measure of similarity we use and in that, with each prediction, we can provide the most similar observations from the training data set used to make the prediction. We argue that the latter is more important and that we can still call a model interpretable, if the measure of similarity is not.
+Interpretability of the k-NN classifier is in two things: interpretability of the measure of similarity we use and in that, with each prediction, we can provide the most similar observations from the training data set used to make the prediction. We argue that the latter is more important and that we can still call a model interpretable if the measure of similarity is not.
 
 The idea is not new. It has been previously investigated by Nicolas Papernot and Patrick McDaniel from Pennsylvania State University [6]. In our approach, we simplify their algorithm. We propose to use data embedding techniques to produce more meaningful spaces, where the use of p-norms as similarity measures is more justified. In this article, we will show that it is possible to increase significantly the performance of the k-NN using this technique.
 
@@ -27,7 +27,7 @@ The idea is not new. It has been previously investigated by Nicolas Papernot and
 
 ### 3.8.2  Data
 
-We are going to use data set [Fashion-Mnist](https://www.openml.org/d/40996). Fashion-MNIST is a dataset of Zalando's article images, consisting of a training set of 60,000 examples and a test set of 10,000 examples. Each example is a 28x28 grayscale image, associated with a label from 10 classes. Classes are following:
+We are going to use the data set [Fashion-Mnist](https://www.openml.org/d/40996). Fashion-MNIST is a dataset of Zalando's article images, consisting of a training set of 60,000 examples and a test set of 10,000 examples. Each example is a 28x28 grayscale image, associated with a label from 10 classes. We have the following classes :
 
 - T-shirt/top
 
@@ -64,7 +64,7 @@ $$ dist(x,y) := \| Emb(x) - Emb(y) \|_p $$
 where $Emb: \mathbb{R}^n \rightarrow \mathbb{R}^m$, $\mathbb{R}^n$ is the space of observations and $\mathbb{R}^m$ is the space of embedding (n > m).
 Note, that $dist$ is not a metric.
 
-An embedding can be done made in various ways. In this article we will explore different embedding techniques, including:
+An embedding can be done made in various ways. In this article, we will explore different embedding techniques, including:
 
 * SVD embedding
 
@@ -89,11 +89,11 @@ $$min_\theta \frac{1}{n}\sum_{i=1}^{n}\|(Decoder_\theta \circ Encoder_\theta)(x_
 
 
 
-### 3.8.4 The use of standard intepretable models in computer vision
+### 3.8.4 The use of standard interpretable models in computer vision
 
-We often think of logistic regression or decision tree classifier as being interpretable. Their interpretability, however, relies strongly on the interpretability of observation features. When features are hardly interpretable, the information that a particular feature has been used is meaningless. For instance, if we know, that at some point classifier makes a choice based on the age of the patient, it is a piece of meaningful information.  On the other hand, if we know, that at some point classifier makes a choice based on one of a million pixels, this information might be meaningless to us. It gives very little explanation, why a particular pixel has been used.
+We often think of logistic regression or decision tree classifiers as being interpretable. Their interpretability, however, relies strongly on the interpretability of observation features. When features are hardly interpretable, the information that a particular feature has been used is meaningless. For instance, if we know, that at some point the classifier makes a choice based on the age of the patient, it is a piece of meaningful information.  On the other hand, if we know, that at some point the classifier makes a choice based on one of a million pixels, this information might be meaningless to us. It gives very little explanation, why a particular pixel has been used.
 
-In this section we will explore use of standard interpretable models and we will try to argue, that they are not useful when it comes to computer vision.
+In this section, we will explore the use of standard interpretable models and we will try to argue, that they are not useful when it comes to computer vision.
 
 ---
 
@@ -105,7 +105,7 @@ $${\displaystyle p={\frac {e^{\beta _{0}+\beta _{1}x_{1}+...+\beta _{n}x_{n}}}{e
 
 where $\beta _{0},\beta _{1},...,\beta _{n}$ are coefficients of logistic regression. We obtain coefficients using gradient descent. Because we have multiple labels so we train 10 different logistic regression models and use softmax function to normalize probabilities of belonging to any particular class.
 We then visualize coefficients as images with bright spots indicating that they are important.
-Unfortunately the results look like this:
+Unfortunately, the results look like this:
 
 ![<b>Fig. 1: An example of logistic regression weights</b>](./images/3-8-LOGREG.png)
 
@@ -115,7 +115,7 @@ We get this because logistic regression works more like a sieve.
 
 #### 3.8.4.2 Decision Trees
 
-Decision trees are very useful classifiers that can be interpreted, however they are suitable when we have very few meaningful dimensions. The tree that at a time makes a choice based on individual pixels is not a good classifier and it's explanation provides little knowledge about, why the selected pixels has been chosen. Therefore, we will not examine the use of this class of classifiers.
+Decision trees are very useful classifiers that can be interpreted, however, they are suitable when we have very few meaningful dimensions. The tree that at a time makes a choice based on individual pixels is not a good classifier and it's explanation provides little knowledge about, why the selected pixels have been chosen. Therefore, we will not examine the use of this class of classifiers.
 
 ---
 
@@ -137,12 +137,12 @@ This complex distance functions can be made in many different ways. In this pape
 
 $$dist(Img1, Img2) = d_e(Emb(Img1), Emb(Img2))$$
 
-where $d_e$ is the euclidean distance, so we simply compute the euclidean distance between embeddings of images. The scheme of our augmented k-NN classifier is displayed on fig. 1.
+where $d_e$ is the euclidean distance, so we simply compute the euclidean distance between embeddings of images. The scheme of our augmented k-NN classifier is displayed in fig. 1.
 
 ![<b>Fig. 1: The k-NN Classifier Architecture</b>](images/3-8-KNNMODEL_1.png)
 
 
-As we can see, new image firstly gets embedded and then a standard classification with k-NN is made. This type of architecture allows us to create a robust and interpretable classifier.
+As we can see, a new image firstly gets embedded and then a standard classification with k-NN is made. This type of architecture allows us to create a robust and interpretable classifier.
 
 ---
 
@@ -154,28 +154,28 @@ In this section, we will explore different embedding techniques and their potent
 
 ##### 3.8.5.2.1 K-means
 
-We use K-means algorithm [2] (also known as Lloyd algorithm) to find subclasses in every class.
+We use the K-means algorithm [2] (also known as the Lloyd algorithm) to find subclasses in every class.
 Algorithm:
 
-1. Initiate number of random centroids
+1. Initiate a number of random centroids
 
-2. For every observation find nearest centroid
+2. For every observation find the nearest centroid
 
-3. Calculate average of observations in every group found in point 2
+3. Calculate the average of observations in every group found in point 2
 
-4. This averages becomes new centroids
+4. These averages become new centroids
 
-5. Repeat points 2 to 4 until all new centroids are at the distance less then $\epsilon$ from old centroids
+5. Repeat points 2 to 4 until all new centroids are at the distance less than $\epsilon$ from old centroids
 
 We use euclidean distance. Prediction for every new observation is simply class of nearest centroid. The algorithm is even more interpretable because we can visualize centroids as images. Thanks to using K-means to find subclasses our images are not blurry. Also because the number of all subclasses is much lower than the number of records in data set using k-NN only on centroids is much faster. Consider the following dataset:
 
 ![<b>Fig 2: An example of centroid image</b>](images/3-8-KMEANS_1.png)
 
-In fact, a good subset of the training data set is enough to create a very good classifier. For instance we can choose:
+In fact, a good subset of the training data set is enough to create a very good classifier. For instance, we can choose:
 
 ![<b>Fig 3: An example of centroid image</b>](images/3-8-KMEANS_2.png)
 
-Chosen points approximate sufficiently training data distribution. Notice, that we in fact don't have to choose particular observations. We can instead chose points in observation space that are similar to observations. This is what k-means algorithm do and so, we can obtain good training data approximation using k-means. Here's an example of a centroid image:
+Chosen points approximate sufficiently training data distribution. Notice, that we, in fact, don't have to choose particular observations. We can instead choose points in observation space that are similar to observations. This is what the k-means algorithm does and so, we can obtain good training data approximation using k-means. Here's an example of a centroid image:
 
 ![<b>Fig 4: An example of a centroid image</b>](images/3-8-KLAPEK.png)
 
@@ -186,8 +186,8 @@ Chosen points approximate sufficiently training data distribution. Notice, that 
 SVD is a standard method of dimensionality reduction [4]. It is rewriting $m\times n$ matrix
 $M$ as $U\Sigma V^T$ where $U$ is $m\times m$ orthonormal matrix, $V^T$ is $n\times n$ orthonormal matrix
 and $\Sigma$ is $m\times n$ rectangular diagonal matrix with non-negative real numbers on the diagonal.
-We assume that singular values of $\Sigma$ are in descending order. Now by taking first columns of $V^T$ we
-get vectors which are the most relevant. Let $V_n$ be matrix, whose columns are $V$ columns with n greatest eigenvalues. Such matrix is linear transformation matrix, that turns observations into their embedding. It can be shown, that $V_n$ is the best transformation in L2 norm sense.
+We assume that singular values of $\Sigma$ are in descending order. Now by taking the first columns of $V^T$ we
+get vectors that are the most relevant. Let $V_n$ be a matrix, whose columns are $V$ columns with n greatest eigenvalues. Such a matrix is a linear transformation matrix, that turns observations into their embedding. It can be shown, that $V_n$ is the best transformation in L2 norm sense.
 
 ![<b>Fig. 5: SVD autoencoder diagram</b>](./images/3-8-SVDAUTOENC_1.png)
 We can then visualize this vectors and see which parts of the picture are the most important.
@@ -203,7 +203,7 @@ Also we can reduce number of dimensions for k-NN.
 
 ##### 3.8.5.2.3 Convolutional Autoencoder
 
-We can create a semi-interpretable model by training a convolutional autoencoder and then creating k-NN classifier on pretrained embedding. As mentioned previously, it has several advantages over k-NN, because it uses $L^2$ distance in more meaningful space. Embedder is not interpretable, but our classifier can at least show us historical observations, that had an impact on prediction, which sometimes is good enough, especially when it can be easily seen why two images are similar and we only want a computer to do humans work. For instance, if we provide 5 images of shoe that caused that our image of the shoe has been interpreted as shoe, we maybe don't know, why those images are similar according to our classifier, however, we can see, that they are similar, so a further explanation of a model is not required. This model, again, is not fully interpretable.
+We can create a semi-interpretable model by training a convolutional autoencoder and then creating a k-NN classifier on pre-trained embedding. As mentioned previously, it has several advantages over k-NN, because it uses $L^2$ distance in more meaningful space. Embedder is not interpretable, but our classifier can at least show us historical observations, that had an impact on prediction, which sometimes is good enough, especially when it can be easily seen why two images are similar and we only want a computer to do humans work. For instance, if we provide 5 images of shoe that caused that our image of the shoe has been interpreted as shoe, we maybe don't know, why those images are similar according to our classifier, however, we can see, that they are similar, so a further explanation of a model is not required. This model, again, is not fully interpretable.
 
 Our implementation of convolutional autoencoder consists of the following layers:
 
@@ -340,16 +340,16 @@ ggplot()+geom_col(aes(x=c("Conv Net","Logistic regression","k-NN base","k-NN SVD
     theme(axis.text.x =element_text(angle = 0,face = "bold"))+labs(x="model",y="Accuracy")
 ```
 
-We use accuracy because classes are balanced and any measure which for accounts for similarities between classes (for example classifying Sandal as Ankle boot is worth more than classifying Sandal as Bag) seemed arbitraly to us.
+We use accuracy because classes are balanced and any measure which accounts for similarities between classes (for example classifying Sandal as Ankle boot is worth more than classifying Sandal as Bag) seemed arbitrary to us.
 
-As expected Convolutional Neural Network is by far the best model here. However we still achieved something. While using emmbedders such as K-means and SVD resulted in worse results, the accuracy was not that much worse and we reduced dimensionality at least thousand folds, which resulted in much faster calculations. Using Convolutional emmbedder got us second best results and while it is semi interpretable it is still better than base K-NN and Logistic regression which turned out to be not interpretable.
+As expected Convolutional Neural Network is by far the best model here. However, we still achieved something. While using embedders such as K-means and SVD resulted in worse results, the accuracy was not that much worse and we reduced dimensionality at least a thousand folds, which resulted in much faster calculations. Using Convolutional embedder got us second-best results and while it is semi interpretable it is still better than base K-NN and Logistic regression which turned out to be not interpretable.
 
 
 ### Conclusions
 
-In this article we proposed easy way of getting interpretable computer vision using convolutional emmbedder. While it is not fully interpretable, explainations are not made post factum as in traditional neural networks and it is achieving better results than less robust classifiers.
+In this article, we proposed an easy way of getting interpretable computer vision using convolutional embedder. While it is not fully interpretable, explanations are not made post factum as in traditional neural networks and it is achieving better results than less robust classifiers.
 
-It maybe possible to get even better results if we carefully search hyperparameter space: for example tested more architectures of convolutional autoencoder and distance functions.
+It may be possible to get even better results if we carefully search hyperparameter space: for example, tested more architectures of convolutional autoencoder and distance functions.
 
 </div>
 
@@ -359,6 +359,8 @@ It maybe possible to get even better results if we carefully search hyperparamet
 2. Huda Hamdan Ali, Lubna Emad Kadhum. "K-Means Clustering Algorithm Applications in Data Mining and Pattern Recognition", International Journal of Science and Research (IJSR), 2015. Accessed at https://pdfs.semanticscholar.org/a430/da239982e691638b7193ac1947da8d0d241b.pdf?fbclid=IwAR33LLbo0m9qcyayoI3qj1tJsnB8YzYehzFK7VUGz4tkH_IlATvhknPKOuk
 3. Keiron O’Shea1, Ryan Nash. "An Introduction to Convolutional Neural Networks", Department of Computer Science, Aberystwyth University, Ceredigion, SY23 3DB, 2015. Accessed at https://www.researchgate.net/publication/285164623_An_Introduction_to_Convolutional_Neural_Networks?fbclid=IwAR35OQjrXNAm5549CX0-LkkdjppnNZIlnKfnFkHUcHsUZ_G-wdYDZ0v6SVY
 4. Carla D. Martin, Mason A. Porter. "The Extraordinary SVD". Accessed at https://people.maths.ox.ac.uk/porterm/papers/s4.pdf?fbclid=IwAR2rC7ho-hLqtyR0eY5KqlYV_DbaKk7KcyE9PtT4hx1MkbXtnG04fe71uEo
-5. Gongde Guo, Hui Wang , David Bell , Yaxin Bi , Kieran Greer. "KNN Model-Based Approach in Classification", School of Computing and Mathematics, University of Ulster. Accessed at http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.2.815&rep=rep1&type=pdf&fbclid=IwAR0qK9dIhhmuj4-0V98Tn6dKzjKvivmfmucJVjDqV319eW_BJfWkt92Cy5E
-6. Nicolas Papernot, Patrick McDaniel. "Deep k-Nearest Neighbors: Towards Confident,Interpretable and Robust Deep Learning", Department of Computer Science and Engineering, Pennsylvania State University, 2018. Accessed at https://arxiv.org/pdf/1803.04765.pdf?fbclid=IwAR2D5gqQf9SL0xRWBctEVrUCL9uUiIf9lZrpPN83YZYbiCGdLAlMlhhaVns
+5. Gongde Guo, Hui Wang, David Bell, Yaxin Bi, Kieran Greer. "KNN Model-Based Approach in Classification", School of Computing and Mathematics, University of Ulster. Accessed at http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.2.815&rep=rep1&type=pdf&fbclid=IwAR0qK9dIhhmuj4-0V98Tn6dKzjKvivmfmucJVjDqV319eW_BJfWkt92Cy5E
+6. Nicolas Papernot, Patrick McDaniel. "Deep k-Nearest Neighbors: Towards Confident, Interpretable and Robust Deep Learning", Department of Computer Science and Engineering, Pennsylvania State University, 2018. Accessed at https://arxiv.org/pdf/1803.04765.pdf?fbclid=IwAR2D5gqQf9SL0xRWBctEVrUCL9uUiIf9lZrpPN83YZYbiCGdLAlMlhhaVns
 7. Dor Bank, Noam Koenigstein, Raja Giryes. "Autoencoders", 2020. Accessed at https://arxiv.org/pdf/2003.05991.pdf
+8. D. Erhan, Y. Bengio, A. Courville, and P. Vincent. "Visualizing higher layer features of a deep network", University of Montreal, vol. 1341,
+no. 3, p. 1, 2009.
