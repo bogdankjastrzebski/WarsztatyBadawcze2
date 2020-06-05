@@ -97,7 +97,7 @@ In this section, we will explore the use of standard interpretable models and we
 
 ---
 
-![<b>Fig. 1: An example of logistic regression weights</b>](./images/3-8-LOGREG.png)
+![<b>Fig. 1: An example of logistic regression weights:</b> In the picture we can see a visualisation of the weights of linear regression model (bright pixel values mean large weight and dark - small). This picture shows, that it is impossible to interpret those weights.](./images/3-8-LOGREG.png)
 
 ##### Logistic Regression
 
@@ -136,7 +136,7 @@ $$dist(Img1, Img2) = d_e(Emb(Img1), Emb(Img2))$$
 
 where $d_e$ is the euclidean distance, so we simply compute the euclidean distance between embeddings of images. The scheme of our augmented k-NN classifier is displayed in fig. 1. As we can see, a new image firstly gets embedded and then a standard classification with k-NN is made. This type of architecture allows us to create a robust and interpretable classifier.
 
-![<b>Fig. 2: The k-NN Classifier Architecture</b>](images/3-8-KNNMODEL_1.png)
+![<b>Fig. 2: The k-NN Classifier Architecture:</b> In the picture we can see the k-NN classifier architecture. Firstly an image get's embedded by the embedder and then, combined with embedded training dataset, form prediction via k-NN.](images/3-8-KNNMODEL_1.png)
 
 ---
 
@@ -167,7 +167,7 @@ We use euclidean distance. Prediction for every new observation is simply class 
 ![<b>Fig 3: K-means embedding example.</b> In the picture a) we can see original set and in the picture b) - the same set with it's representation](images/3-8-KMEANS_ALL.png)
 
 
-![<b>Fig 4: An example of a centroid image</b>](images/3-8-KLAPEK.png)
+![<b>Fig 4: An example of a centroid image</b>. A centroid in observation space is just an image. Here we can see, that this centroid is close to the "shoes cluster".](images/3-8-KLAPEK.png)
 
 ---
 
@@ -181,7 +181,7 @@ get vectors that are the most relevant. Let $V_n$ be a matrix, whose columns are
 
 ![<b>Fig. 5: SVD autoencoder diagram:</b> In this picture we can see SVD autoencoder diagram.](./images/3-8-SVDAUTOENC_1.png)
 
-![<b>Fig. 6: Most important eigenvector</b>](./images/3-8-HIDDEN_All.png)
+![<b>Fig. 6: Most important eigenvector</b>. In the picture a) we can see an eigenvector, b) an image from dataset and in c) two images combined using a) as a filter and b) as a background. Because there in the picture c) there is still great bright area (intersection of a) and c) is significant), value in representation associated with this eigenvector will be larger. ](./images/3-8-HIDDEN_All.png)
 
 ---
 
@@ -243,7 +243,7 @@ Our implementation of convolutional autoencoder consists of the following layers
 
 along with pooling and unpooling between.
 
-![<b>Fig. 10: Architecture of the convolutional autoencoder</b>](./images/3-8-CONVAUTOENC_1.png)
+![<b>Fig. 10: Architecture of the convolutional autoencoder:</b> composed of several convolution layers.](./images/3-8-CONVAUTOENC_1.png)
 
 ---
 
@@ -300,7 +300,7 @@ Having a very good performance, they are impossible to explain. There are some t
 
 Here's architecture's visualization:
 
-![<b>Fig. 11: The architecture of the Convolutional classifier.</b> ](./images/3-8-BlackBoxCONV_1.png)
+![<b>Fig. 11: The architecture of the Convolutional classifier:</b> there are two section to this classifier. The first is convolutional layers section and the second is dense layers section. ](./images/3-8-BlackBoxCONV_1.png)
 
 ---
 
