@@ -161,10 +161,10 @@ Algorithm:
 
 5. Repeat points 2 to 4 until all new centroids are at the distance less than $\epsilon$ from old centroids
 
-We use euclidean distance. Prediction for every new observation is simply class of nearest centroid. The algorithm is even more interpretable because we can visualize centroids as images. Thanks to using K-means to find subclasses our images are not blurry. Also because the number of all subclasses is much lower than the number of records in data set using k-NN only on centroids is much faster. Consider the dataset showed in fig. 3 a). In fact, a good subset of the training data set is enough to create a very good classifier. For instance, 5 points depicted on fig. 3 b), approximate sufficiently training data distribution. Notice, that we, in fact, don't have to choose particular observations. We can instead choose points in observation space that are similar to observations. This is what the k-means algorithm does and so, we can obtain good training data approximation using k-means. An example of a centroid image is showed in fig. 4.
+We use euclidean distance. Prediction for every new observation is simply class of nearest centroid. The algorithm is even more interpretable because we can visualize centroids as images. Thanks to using K-means to find subclasses our images are not blurry. Also because the number of all subclasses is much lower than the number of records in data set using k-NN only on centroids is much faster. Consider the dataset showed in fig. 3 a). In fact, a good subset of the training data set is enough to create a very good classifier. For instance, 5 points depicted in fig. 3 b), approximate sufficiently training data distribution. Notice, that we, in fact, don't have to choose particular observations. We can instead choose points in observation space that are similar to observations. This is what the k-means algorithm does and so, we can obtain good training data approximation using k-means. An example of a centroid image is showed in fig. 4.
 
 
-![<b>Fig 3: K-means embedding example.</b> In the picture a) we can see original set and in the picture b) - the same set with it's representation](images/3-8-KMEANS_ALL.png)
+![<b>Fig 3: K-means embedding example.</b> In the picture a) we can see original set and in the picture b) - the same set with it's representation.](images/3-8-KMEANS_ALL.png)
 
 
 ![<b>Fig 4: An example of a centroid image</b>. A centroid in observation space is just an image. Here we can see, that this centroid is close to the "shoes cluster".](images/3-8-KLAPEK.png)
